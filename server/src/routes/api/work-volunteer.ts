@@ -1,6 +1,6 @@
 import express from 'express';
 import type { Request, Response } from 'express';
-import { Volunteer, Work } from '../../models/work.js';
+import { Volunteer, Work } from '../../models/index.js';
 
  const router = express.Router();
 
@@ -22,7 +22,7 @@ router.get('/', async (_req: Request, res: Response) => {
       message: error.message
     });
   }
-};
+});
 
 // GET /works/:id - Get work by ID
 router.get('/:id', async (req: Request, res: Response) => {
