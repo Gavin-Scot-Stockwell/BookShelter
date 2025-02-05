@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useEffect , useState } from 'react';
 import type { Book } from "../interfaces/Book";
+import { apiTest } from '../api/placeTest'; 
+import Bookstore from "../interfaces/bookstore";
 
 const SavedBooksPage = () => {
   const savedBooks = localStorage.getItem('savedBooks');
@@ -11,6 +13,18 @@ const SavedBooksPage = () => {
     setBooks(updatedBooks);
     localStorage.setItem('savedBooks', JSON.stringify(updatedBooks));
   };
+  
+
+  useEffect(() => {
+    apiTest()
+  }, []);
+
+const bookStores = localStorage.getItem("bookstores");
+const initialBookstores: Bookstore[] = bookStores ? JSON.parse(bookStores) : [];
+
+
+
+
 
   return (
     <div className="container">
@@ -34,8 +48,45 @@ const SavedBooksPage = () => {
           <p>No saved books</p>
         )}
       </div>
+    
+    
+      <div className="container">
+    <h1>Bookstores</h1>
+    <div className="book-list">
+      {initialBookstores.length > 0 ? (
+        <div>
+          <p>Bookstores</p>
+          {initialBookstores.map((bookstore) => (
+            <div>
+              <h2>{bookstore.name}</h2>
+              <p>Opening Hours: {bookstore.opening_hours}</p>
+              <p>Phone: {bookstore.phone}</p>
+              <p>Website: {bookstore.website}</p>
+              <p>City: {bookstore.city}</p>
+              <p>Street: {bookstore.street}</p>
+              <p>Postcode: {bookstore.postcode}</p>
+              <p>House Number: {bookstore.housenumber}</p>
+              <p>State: {bookstore.state}</p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>No bookstores found</p>
+      )}
+    </div>
+  </div>
+    
+    
+    
+    
+    
+    
     </div>
   );
 };
+
+
+
+
 
 export default SavedBooksPage;
