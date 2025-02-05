@@ -1,5 +1,3 @@
-// BookContainer.tsx
-
 import { useState, useEffect } from "react";
 import { Book } from "../interfaces/Book"; // No changes here
 import BookCard from "../components/BookCard"; // No changes here

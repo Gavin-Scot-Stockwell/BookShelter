@@ -1,58 +1,43 @@
-import { useState, useEffect } from "react";
-import { VolunteerData } from "../interfaces/VolunteerData";
-import { retrieveVolunteers, deleteVolunteer } from "../api/volunteerAPI";
-import VolunteerCard from "../components/VolunteerCard";
-import { Link } from "react-router-dom";
-import { ApiMessage } from "../interfaces/ApiMessage";
+import type { Book } from "../interfaces/Book";  
+
+
 
 const SavedBooksPage = () => {
-  const [volunteers, setVolunteers] = useState<VolunteerData[]>([]);
+  
+ const savedBooks = localStorage.getItem('savedBooks');
 
-  const fetchVolunteers = async () => {
-    try {
-      const data = await retrieveVolunteers();
-      setVolunteers(data);
-    } catch (err) {
-      console.error('Failed to retrieve volunteers', err);
-    }
-  };
+ const books: Book[] = savedBooks ? JSON.parse(savedBooks) : [];
 
-  const deleteIndvVolunteer = async (volunteerId: number): Promise<ApiMessage> => {
-    try {
-      const data = await deleteVolunteer(volunteerId);
-      fetchVolunteers();
-      return data;
-    } catch (err) {
-      return Promise.reject(err);
-    }
-  }
 
-  useEffect(() => {
-    fetchVolunteers();
-  }, []);
+
   return (
-    <div className='volunteer'>
-      <div className='new-volunteer'>
-        <Link to='/new-volunteer'>Click to add a new volunteer!</Link>
-      </div>
-      <div className='volunteer-list'>
-        {volunteers ? volunteers.map((volunteer) => (
-            <VolunteerCard 
-              key={volunteer.id}
-              id={volunteer.id}
-              name={volunteer.volunteerName}
-              deleteIndvVolunteer={deleteIndvVolunteer}
-            />
-          )
+    <div className="container">
+      <h1>Saved Books</h1>
+      <div className="book-list">
+        {books.length > 0 ? (
+          <div>
+            <p>Books</p>
+            {books.map((book) => (
+              <div id = {book.key.toString()}>
+                <h2>{book.title}</h2>
+                <p>Author(s): {book.authors.join(", ")}</p>
+                <p>First Published: {book.first_publish_year}</p>
+              <button
+             
+              
+              > 
+              </button>
+              </div>
+            ))}
+          </div>
         ) : (
-            <div>
-              Could not retrieve Volunteers to display! Please check again later. 
-            </div>
-          )
-        }
+          <p>No saved books yet</p>
+        )}
       </div>
     </div>
   );
+
+  
 };
 
 
