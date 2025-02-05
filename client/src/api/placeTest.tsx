@@ -2,9 +2,9 @@ import Bookstore from "../interfaces/bookstore";
 
 let lat: number;
 let lon: number;
-let mod: number;
+//let mod: number;
 
-mod = 0.1;//this will need to be changed to something that the user can control
+const mod: number = 0.1;//this will need to be changed to something that the user can control
 function getCurrentPosition(): Promise<{ lat: number; lon: number }> {
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(

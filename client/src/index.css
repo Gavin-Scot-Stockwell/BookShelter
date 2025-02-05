@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap");
 
 :root {
-  font-family: 'Inter Tight', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Inter Tight", system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
@@ -13,27 +13,27 @@
 }
 
 /* webkit solution */
-::-webkit-input-placeholder { 
-  text-align:right; 
+::-webkit-input-placeholder {
+  text-align: right;
 }
 
 /* mozilla solution */
-input:-moz-placeholder { 
-  text-align:right; 
+input:-moz-placeholder {
+  text-align: right;
 }
 
 a {
   font-weight: 500;
-  color: #67AAF9;
+  color: #67aaf9;
   text-decoration: inherit;
 }
 
 a:hover {
-  color: #B95F89;
+  color: #b95f89;
 }
 
 body {
-  background: #2EC0F9;
+  background: #2ec0f9;
   background-size: cover;
   background-repeat: no-repeat no-repeat;
   background-position: center center;
@@ -46,15 +46,15 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
-  color: #9FCC2E;
+  color: #9fcc2e;
 }
 
 h3 {
-  color: #4B6858;
+  color: #4b6858;
 }
 
 h4 {
-  color: #424C55;
+  color: #424c55;
 }
 
 button {
@@ -68,7 +68,7 @@ button {
   background-color: #fff;
   cursor: pointer;
   transition: border-color 0.25s;
-  color: #67AAF9;
+  color: #67aaf9;
 }
 
 button:hover {
@@ -112,7 +112,7 @@ tbody tr:nth-child(odd) {
 }
 
 .nav-title a {
-  color: #B95F89;
+  color: #b95f89;
 }
 
 .nav-item {
@@ -129,7 +129,7 @@ tbody tr:nth-child(odd) {
 .main-list > div > a {
   display: flex;
   justify-content: center;
-  color: #B95F89;
+  color: #b95f89;
 }
 
 .work-list {
@@ -144,7 +144,7 @@ tbody tr:nth-child(odd) {
   width: 300px;
   height: 300px;
   margin: 5% 5%;
-  border: 3px solid #424C55;
+  border: 3px solid #424c55;
   box-shadow: 10px 5px 5px black;
 }
 
@@ -158,7 +158,7 @@ tbody tr:nth-child(odd) {
 }
 
 .new-volunteer > a {
-  color: #B95F89;
+  color: #b95f89;
 }
 
 .volunteer-list {
@@ -172,7 +172,7 @@ tbody tr:nth-child(odd) {
   width: 250px;
   height: 300px;
   margin: 5% 5%;
-  border: 3px solid #424C55;
+  border: 3px solid #424c55;
   box-shadow: 10px 5px 5px black;
 }
 
@@ -185,7 +185,7 @@ tbody tr:nth-child(odd) {
 .form {
   width: 50%;
   height: 80%;
-  background-color: #E3D7FF;
+  background-color: #e3d7ff;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -199,7 +199,7 @@ tbody tr:nth-child(odd) {
 }
 
 .form > label {
-  color: #4B6858;
+  color: #4b6858;
 }
 
 .form > textarea {
@@ -210,4 +210,32 @@ tbody tr:nth-child(odd) {
 
 .form > select {
   text-align: center;
+}
+
+/* Buttons */
+
+/* search candidate page */
+/* common button properties */
+.search-button {
+  font-size: 5rem;
+  cursor: pointer;
+  padding: 0 1rem;
+  position: absolute;
+}
+
+.reject-button {
+  color: red;
+  left: 0; /* left side of the card */
+}
+
+.add-button {
+  color: green;
+  right: 0; /* right side of the card */
+}
+
+/* saved candidate page */
+.delete-button {
+  font-size: 2.7rem;
+  cursor: pointer;
+  color: red;
 }
