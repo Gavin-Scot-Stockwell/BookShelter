@@ -1,75 +1,50 @@
-import { useState, useEffect, MouseEventHandler } from "react";
-import { Link } from "react-router-dom";
-import { WorkData } from "../interfaces/WorkData";
-import { deleteWork, retrieveWorks } from "../api/workAPI";
+// BookContainer.tsx
 
-const MainPage = () => {
-  const [ workArray, setWorkArray ] = useState<WorkData[]>([]);
-  const [ dataCheck, setDataCheck ] = useState(true);
+import { useState, useEffect } from "react";
+import { Book } from "../interfaces/Book"; // No changes here
+import BookCard from "../components/BookCard"; // No changes here
+import {fetchRandomBooksBySubject} from "../api/openLibraryAPI";
 
-  const fetchWork = async () => {
-    try {
-      const data = await retrieveWorks();
-      setWorkArray(data);
-    } catch (err) {
-      console.error('Failed to retrieve work:', err);
+const BookContainer = () => {
+  const [books, setBooks] = useState<Book[]>([]);
+  const [currentBook, setCurrentBook] = useState<Book | null>(null);
+  const [savedBooks, setSavedBooks] = useState<Book[]>([]);
+
+  useEffect(() => {
+    fetchRandomBooksBySubject("science_fiction").then((fetchedBooks) => {
+      setBooks(fetchedBooks);
+      setCurrentBook(fetchedBooks[0] || null);
+    });
+  }, []);
+
+  const getRandomBook = () => {
+    if (books.length > 1) {
+      const remainingBooks = books.slice(1);
+      setBooks(remainingBooks);
+      setCurrentBook(remainingBooks[0] || null);
+    } else {
+      setCurrentBook(null);
     }
   };
 
-  useEffect(() => {
-    if(dataCheck) {
-      fetchWork();
-    } else {
-      setDataCheck(false);
-    }
-  }, [dataCheck]);
-
-  const handleDelete: MouseEventHandler<HTMLButtonElement> = async (event) => {
-    const workId = Number(event.currentTarget.value);
-    if (!isNaN(workId)) {
-      try {
-        const data = await deleteWork(workId);
-        fetchWork();
-        return data;
-      } catch (error) {
-        console.error('Failed to delete ticket:', error);
-      }
+  const addToSavedBookList = () => {
+    if (currentBook) {
+      setSavedBooks([...savedBooks, currentBook]);
+      getRandomBook();
     }
   };
 
   return (
-    <div className="main-list">
-      <div>
-        <Link to='/show-volunteers'>Click here to see Volunteers!</Link>
-      </div>
-      {dataCheck ? (
-        <div className="work-list">
-          {workArray.map((work) => (
-            <div key={work.id} className='work-details'>
-              <h3>{work.name}</h3>
-              <h4>{work.status}</h4>
-              <div>{work.description}</div>
-              <div>{work.assignedVolunteer?.volunteerName}</div>
-              <Link to={'/edit-work'} state={{id: work.id}}>
-                <button>Edit</button>
-              </Link>
-              <button 
-                value={String(work.id)}
-                onClick={handleDelete}
-              >
-                Delete
-              </button>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div>
-          No volunteer work available!
-        </div>
-      )
-    }
+    <div>
+      <h1>Random Books</h1>
+      <BookCard
+        currentBook={currentBook}
+        addToSavedBookList={addToSavedBookList}
+        getRandomBook={getRandomBook}
+        isSaved={savedBooks.some((book) => book.key === currentBook?.key)}
+      />
     </div>
-  )
+  );
 };
 
-export default MainPage;
+export default BookContainer;
