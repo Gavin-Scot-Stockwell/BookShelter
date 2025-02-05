@@ -5,7 +5,7 @@ import VolunteerCard from "../components/VolunteerCard";
 import { Link } from "react-router-dom";
 import { ApiMessage } from "../interfaces/ApiMessage";
 
-const VolunteerPage = () => {
+const SavedBooksPage = () => {
   const [volunteers, setVolunteers] = useState<VolunteerData[]>([]);
 
   const fetchVolunteers = async () => {
@@ -56,4 +56,4 @@ const VolunteerPage = () => {
 };
 
 
-export default VolunteerPage;
+export default SavedBooksPage;
