@@ -1,3 +1,4 @@
+import  { useState } from "react";
 import { Book } from "../interfaces/Book";
 import { IoRemoveCircleSharp } from "react-icons/io5";
 import { MdAddCircle } from "react-icons/md";
@@ -9,12 +10,36 @@ interface BookCardProps {
   isSaved?: boolean;
 }
 
+const savedBooks = {}
+
 const BookCard = ({
   currentBook,
   addToSavedBookList,
   getRandomBook,
   isSaved = false,
 }: BookCardProps) => {
+  
+  if (addToSavedBookList) {
+    
+    console.log('BOOK SAVED');
+  }
+  addToSavedBookList = () => {
+    // Retrieve the existing list of saved books from local storage
+    const savedBooks = JSON.parse(localStorage.getItem('savedBooks') || '[]');
+
+    // Add the current book to the list
+    savedBooks.push(currentBook);
+
+    // Save the updated list back to local storage
+    localStorage.setItem('savedBooks', JSON.stringify(savedBooks));
+
+    // Optionally, update the state or perform other actions
+    window.location.reload();
+  
+}
+  
+console.log(savedBooks);
+  
   return (
     <div className="book-card-wrapper">
       <div className="book-card">
@@ -47,6 +72,9 @@ const BookCard = ({
       </div>
     </div>
   );
+
+
 };
+
 
 export default BookCard;
