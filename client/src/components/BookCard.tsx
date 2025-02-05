@@ -1,0 +1,52 @@
+import { Book } from "../interfaces/Book";
+import { IoRemoveCircleSharp } from "react-icons/io5";
+import { MdAddCircle } from "react-icons/md";
+
+interface BookCardProps {
+  currentBook: Book | null;
+  addToSavedBookList?: () => void;
+  getRandomBook?: () => void;
+  isSaved?: boolean;
+}
+
+const BookCard = ({
+  currentBook,
+  addToSavedBookList,
+  getRandomBook,
+  isSaved = false,
+}: BookCardProps) => {
+  return (
+    <div className="book-card-wrapper">
+      <div className="book-card">
+        {currentBook ? (
+          <>
+            <div className="book-details">
+              <h2>{currentBook.title}</h2>
+              <p>Author(s): {currentBook.authors.join(", ")}</p>
+              <p>First Published: {currentBook.first_publish_year}</p>
+            </div>
+          </>
+        ) : (
+          <div className="none-remain">No more books available</div>
+        )}
+      </div>
+
+      <div className="buttons-container">
+        {!isSaved && currentBook && (
+          <>
+            <IoRemoveCircleSharp
+              className="search-button reject-button"
+              onClick={() => getRandomBook?.()}
+            />
+            <MdAddCircle
+              className="search-button add-button"
+              onClick={() => addToSavedBookList?.()}
+            />
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default BookCard;
