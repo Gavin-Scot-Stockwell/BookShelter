@@ -51,7 +51,7 @@ console.log(savedBooks);
             </div>
           </>
         ) : (
-          <div className="none-remain">No more books available</div>
+          <div className="none-remain"> ...Loading Book...</div>
         )}
       </div>
 

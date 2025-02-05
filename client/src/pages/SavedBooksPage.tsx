@@ -1,14 +1,16 @@
-import type { Book } from "../interfaces/Book";  
-
-
+import { useState } from 'react';
+import type { Book } from "../interfaces/Book";
 
 const SavedBooksPage = () => {
-  
- const savedBooks = localStorage.getItem('savedBooks');
+  const savedBooks = localStorage.getItem('savedBooks');
+  const initialBooks: Book[] = savedBooks ? JSON.parse(savedBooks) : [];
+  const [books, setBooks] = useState<Book[]>(initialBooks);
 
- const books: Book[] = savedBooks ? JSON.parse(savedBooks) : [];
-
-
+  const removeBook = (bookKey: string) => {
+    const updatedBooks = books.filter(book => book.key !== bookKey);
+    setBooks(updatedBooks);
+    localStorage.setItem('savedBooks', JSON.stringify(updatedBooks));
+  };
 
   return (
     <div className="container">
@@ -18,27 +20,22 @@ const SavedBooksPage = () => {
           <div>
             <p>Books</p>
             {books.map((book) => (
-              <div id = {book.key.toString()}>
+              <div id={book.key.toString()} key={book.key.toString()}>
                 <h2>{book.title}</h2>
                 <p>Author(s): {book.authors.join(", ")}</p>
                 <p>First Published: {book.first_publish_year}</p>
-              <button
-             
-              
-              > 
-              </button>
+                <button onClick={() => removeBook(book.key.toString())}>
+                  Remove Book
+                </button>
               </div>
             ))}
           </div>
         ) : (
-          <p>No saved books yet</p>
+          <p>No saved books</p>
         )}
       </div>
     </div>
   );
-
-  
 };
-
 
 export default SavedBooksPage;
