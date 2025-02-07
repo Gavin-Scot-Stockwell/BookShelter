@@ -1,9 +1,9 @@
-import { useState, useEffect, type FormEvent, type ChangeEvent } from 'react';
+import { useState, type FormEvent, type ChangeEvent } from 'react';
 
 import Auth from '../utils/auth';
 import { login } from '../api/authAPI';
 import type { UserLogin } from '../interfaces/UserLogin';
-import { apiTest } from '../api/placeTest'; 
+
 
 
 const Login = () => {
@@ -12,9 +12,7 @@ const Login = () => {
     password: '',
   });
 
-  useEffect(() => {
-    apiTest();
-}, []);
+
 
 
   const handleChange = (

@@ -1,59 +1,92 @@
-import { useState, useEffect } from "react";
-import { VolunteerData } from "../interfaces/VolunteerData";
-import { retrieveVolunteers, deleteVolunteer } from "../api/volunteerAPI";
-import VolunteerCard from "../components/VolunteerCard";
-import { Link } from "react-router-dom";
-import { ApiMessage } from "../interfaces/ApiMessage";
+import { useEffect , useState } from 'react';
+import type { Book } from "../interfaces/Book";
+import { apiTest } from '../api/placeTest'; 
+import Bookstore from "../interfaces/bookstore";
 
 const SavedBooksPage = () => {
-  const [volunteers, setVolunteers] = useState<VolunteerData[]>([]);
+  const savedBooks = localStorage.getItem('savedBooks');
+  const initialBooks: Book[] = savedBooks ? JSON.parse(savedBooks) : [];
+  const [books, setBooks] = useState<Book[]>(initialBooks);
 
-  const fetchVolunteers = async () => {
-    try {
-      const data = await retrieveVolunteers();
-      setVolunteers(data);
-    } catch (err) {
-      console.error('Failed to retrieve volunteers', err);
-    }
+  const removeBook = (bookKey: string) => {
+    const updatedBooks = books.filter(book => book.key !== bookKey);
+    setBooks(updatedBooks);
+    localStorage.setItem('savedBooks', JSON.stringify(updatedBooks));
   };
-
-  const deleteIndvVolunteer = async (volunteerId: number): Promise<ApiMessage> => {
-    try {
-      const data = await deleteVolunteer(volunteerId);
-      fetchVolunteers();
-      return data;
-    } catch (err) {
-      return Promise.reject(err);
-    }
-  }
+  
 
   useEffect(() => {
-    fetchVolunteers();
+    apiTest()
   }, []);
+
+const bookStores = localStorage.getItem("bookstores");
+const initialBookstores: Bookstore[] = bookStores ? JSON.parse(bookStores) : [];
+
+
+
+
+
   return (
-    <div className='volunteer'>
-      <div className='new-volunteer'>
-        <Link to='/new-volunteer'>Click to add a new volunteer!</Link>
-      </div>
-      <div className='volunteer-list'>
-        {volunteers ? volunteers.map((volunteer) => (
-            <VolunteerCard 
-              key={volunteer.id}
-              id={volunteer.id}
-              name={volunteer.volunteerName}
-              deleteIndvVolunteer={deleteIndvVolunteer}
-            />
-          )
+    <div className="container">
+      <h1>Saved Books</h1>
+      <div className="book-list">
+        {books.length > 0 ? (
+          <div>
+            <p>Books</p>
+            {books.map((book) => (
+              <div id={book.key.toString()} key={book.key.toString()}>
+                <h2>{book.title}</h2>
+                <p>Author(s): {book.authors.join(", ")}</p>
+                <p>First Published: {book.first_publish_year}</p>
+                <button onClick={() => removeBook(book.key.toString())}>
+                  Remove Book
+                </button>
+              </div>
+            ))}
+          </div>
         ) : (
-            <div>
-              Could not retrieve Volunteers to display! Please check again later. 
-            </div>
-          )
-        }
+          <p>No saved books</p>
+        )}
       </div>
+    
+    
+      <div className="container">
+    <h1>Bookstores</h1>
+    <div className="book-list">
+      {initialBookstores.length > 0 ? (
+        <div>
+          <p>Bookstores</p>
+          {initialBookstores.map((bookstore) => (
+            <div>
+              <h2>{bookstore.name}</h2>
+              <p>Opening Hours: {bookstore.opening_hours}</p>
+              <p>Phone: {bookstore.phone}</p>
+              <p>Website: {bookstore.website}</p>
+              <p>City: {bookstore.city}</p>
+              <p>Street: {bookstore.street}</p>
+              <p>Postcode: {bookstore.postcode}</p>
+              <p>House Number: {bookstore.housenumber}</p>
+              <p>State: {bookstore.state}</p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>No bookstores found</p>
+      )}
+    </div>
+  </div>
+    
+    
+    
+    
+    
+    
     </div>
   );
 };
+
+
+
 
 
 export default SavedBooksPage;
