@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import { Book } from "../interfaces/Book";
 import { IoRemoveCircleSharp } from "react-icons/io5";
 import { MdAddCircle } from "react-icons/md";
+import auth from "../utils/auth";  // Import authentication utility
 
 interface BookCardProps {
   currentBook: Book | null;
@@ -9,36 +11,34 @@ interface BookCardProps {
   isSaved?: boolean;
 }
 
-const savedBooks = {}
-
 const BookCard = ({
   currentBook,
   addToSavedBookList,
   getRandomBook,
   isSaved = false,
 }: BookCardProps) => {
-  
-  if (addToSavedBookList) {
-    
-    console.log('BOOK SAVED');
-  }
-  addToSavedBookList = () => {
-    // Retrieve the existing list of saved books from local storage
-    const savedBooks = JSON.parse(localStorage.getItem('savedBooks') || '[]');
+  const navigate = useNavigate();
 
-    // Add the current book to the list
-    savedBooks.push(currentBook);
+  // Handle book saving with login check
+  const handleSaveBook = () => {
+    if (!auth.loggedIn()) {
+      navigate("/login");
+      return;
+    }
 
-    // Save the updated list back to local storage
-    localStorage.setItem('savedBooks', JSON.stringify(savedBooks));
+    addToSavedBookList?.();
+  };
 
-    // Optionally, update the state or perform other actions
-    window.location.reload();
-  
-}
-  
-console.log(savedBooks);
-  
+  // Handle book rejection (getting a new book) with login check
+  const handleGetRandomBook = () => {
+    if (!auth.loggedIn()) {
+      navigate("/login");
+      return;
+    }
+
+    getRandomBook?.();
+  };
+
   return (
     <div className="book-card-wrapper">
       <div className="book-card">
@@ -60,20 +60,17 @@ console.log(savedBooks);
           <>
             <IoRemoveCircleSharp
               className="search-button reject-button"
-              onClick={() => getRandomBook?.()}
+              onClick={handleGetRandomBook}
             />
             <MdAddCircle
               className="search-button add-button"
-              onClick={() => addToSavedBookList?.()}
+              onClick={handleSaveBook}
             />
           </>
         )}
       </div>
     </div>
   );
-
-
 };
-
 
 export default BookCard;
