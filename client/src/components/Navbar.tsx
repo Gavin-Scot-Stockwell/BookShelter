@@ -36,6 +36,7 @@ const Navbar = () => {
             onClick={() => {
               auth.logout();
               setLoginCheck(false);
+              navigate("/login");
             }}
           >
             Logout

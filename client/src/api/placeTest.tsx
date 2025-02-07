@@ -2,9 +2,8 @@ import Bookstore from "../interfaces/bookstore";
 
 let lat: number;
 let lon: number;
-//let mod: number;
+const mod: number = 0.1; // this will need to be changed to something that the user can control
 
-const mod: number = 0.1; //this will need to be changed to something that the user can control
 function getCurrentPosition(): Promise<{ lat: number; lon: number }> {
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(
@@ -14,7 +13,11 @@ function getCurrentPosition(): Promise<{ lat: number; lon: number }> {
         resolve({ lat, lon });
       },
       (error) => {
-        reject(`Error: ${error.message}`);
+        if (error.code === error.PERMISSION_DENIED) {
+          reject('Error: User denied Geolocation');
+        } else {
+          reject(`Error: ${error.message}`);
+        }
       }
     );
   });
@@ -30,9 +33,6 @@ async function apiTest() {
 
     const result = await fetch("https://overpass-api.de/api/interpreter", {
       method: "POST",
-      // The body contains the query
-      // to understand the query language see "The Programmatic Query Language" on
-      // https://wiki.openstreetmap.org/wiki/Overpass_API#The_Programmatic_Query_Language_(OverpassQL)
       body:
         "data=" +
         encodeURIComponent(`
@@ -71,12 +71,11 @@ async function apiTest() {
       storeArray.push(store);
     }
 
-    //console.info(storeArray);
-
     localStorage.setItem("bookstores", JSON.stringify(storeArray));
     console.info(localStorage.getItem("bookstores"));
   } catch (error) {
     console.error(error);
+    alert(error); // Show the error to the user, if you want
   }
 }
 

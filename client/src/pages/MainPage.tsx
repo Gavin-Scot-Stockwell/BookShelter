@@ -1,14 +1,28 @@
 import { useState, useEffect } from "react";
-import { Book } from "../interfaces/Book"; // No changes here
-import BookCard from "../components/BookCard"; // No changes here
-import {fetchRandomBooksBySubject} from "../api/openLibraryAPI";
+import { useNavigate } from "react-router-dom";  // Import navigate hook
+import { Book } from "../interfaces/Book";
+import BookCard from "../components/BookCard";
+import { fetchRandomBooksBySubject } from "../api/openLibraryAPI";
+import auth from "../utils/auth";  // Import authentication utility
 
 const BookContainer = () => {
+  const navigate = useNavigate(); // React Router navigation
   const [books, setBooks] = useState<Book[]>([]);
   const [currentBook, setCurrentBook] = useState<Book | null>(null);
   const [savedBooks, setSavedBooks] = useState<Book[]>([]);
 
+  // Redirect user to login if not authenticated
   useEffect(() => {
+    if (!auth.loggedIn()) {
+      navigate("/login");  // Redirect to login page if not logged in
+    }
+  }, []);  // Runs once on component mount
+
+  // Load saved books from localStorage when the component mounts
+  useEffect(() => {
+    const storedBooks = JSON.parse(localStorage.getItem("savedBooks") || "[]");
+    setSavedBooks(storedBooks);
+
     fetchRandomBooksBySubject("science_fiction").then((fetchedBooks) => {
       setBooks(fetchedBooks);
       setCurrentBook(fetchedBooks[0] || null);
@@ -27,7 +41,16 @@ const BookContainer = () => {
 
   const addToSavedBookList = () => {
     if (currentBook) {
-      setSavedBooks([...savedBooks, currentBook]);
+      console.log("Saving book:", currentBook);
+
+      const updatedSavedBooks = [...savedBooks, currentBook];
+
+      // Update state
+      setSavedBooks(updatedSavedBooks);
+
+      // Store in localStorage
+      localStorage.setItem("savedBooks", JSON.stringify(updatedSavedBooks));
+
       getRandomBook();
     }
   };

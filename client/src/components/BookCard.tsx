@@ -2,11 +2,11 @@ import { useNavigate } from "react-router-dom";
 import { Book } from "../interfaces/Book";
 import { IoRemoveCircleSharp } from "react-icons/io5";
 import { MdAddCircle } from "react-icons/md";
-import auth from "../utils/auth";  // Import authentication utility
+import auth from "../utils/auth";
 
 interface BookCardProps {
   currentBook: Book | null;
-  addToSavedBookList?: () => void;
+  addToSavedBookList: () => void;
   getRandomBook?: () => void;
   isSaved?: boolean;
 }
@@ -19,14 +19,13 @@ const BookCard = ({
 }: BookCardProps) => {
   const navigate = useNavigate();
 
-  // Handle book saving with login check
   const handleSaveBook = () => {
     if (!auth.loggedIn()) {
       navigate("/login");
       return;
     }
 
-    addToSavedBookList?.();
+    addToSavedBookList();
   };
 
   // Handle book rejection (getting a new book) with login check
