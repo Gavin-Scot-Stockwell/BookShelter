@@ -43,8 +43,12 @@ class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('id_token');
-    window.location.assign('/');
+    // remove the token from localStorage
+    try {
+      localStorage.removeItem('id_token');
+    } catch (error) {
+      console.error('Error removing access token from local storage:', error);
+    }
   }
 }
 

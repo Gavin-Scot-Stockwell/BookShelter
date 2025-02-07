@@ -1,34 +1,53 @@
-import { useEffect , useState } from 'react';
+import { useEffect, useState, useLayoutEffect } from "react";
+import { useNavigate } from "react-router-dom";  
 import type { Book } from "../interfaces/Book";
-import { apiTest } from '../api/placeTest'; 
+import { apiTest } from "../api/placeTest";
 import Bookstore from "../interfaces/bookstore";
+import auth from "../utils/auth";
 
 const SavedBooksPage = () => {
-  const savedBooks = localStorage.getItem('savedBooks');
+  const navigate = useNavigate();  
+  const savedBooks = localStorage.getItem("savedBooks");
   const initialBooks: Book[] = savedBooks ? JSON.parse(savedBooks) : [];
   const [books, setBooks] = useState<Book[]>(initialBooks);
+  const [loginCheck, setLoginCheck] = useState(false);
 
-  const removeBook = (bookKey: string) => {
-    const updatedBooks = books.filter(book => book.key !== bookKey);
-    setBooks(updatedBooks);
-    localStorage.setItem('savedBooks', JSON.stringify(updatedBooks));
+  const checkAndRedirectIfNotLoggedIn = () => {
+    if (!auth.loggedIn()) {
+      navigate("/login");
+      return false;
+    }
+    return true;
   };
-  
 
-  useEffect(() => {
-    apiTest()
+  useLayoutEffect(() => {
+    if (checkAndRedirectIfNotLoggedIn()) {
+      setLoginCheck(true);
+    }
   }, []);
 
-const bookStores = localStorage.getItem("bookstores");
-const initialBookstores: Bookstore[] = bookStores ? JSON.parse(bookStores) : [];
+  useEffect(() => {
+    if (loginCheck) {
+      apiTest();
+    }
+  }, [loginCheck]);
 
+  const removeBook = (bookKey: string) => {
+    if (!checkAndRedirectIfNotLoggedIn()) return;
 
+    const updatedBooks = books.filter((book) => book.key !== bookKey);
+    setBooks(updatedBooks);
+    localStorage.setItem("savedBooks", JSON.stringify(updatedBooks));
+  };
 
-
+  const bookStores = localStorage.getItem("bookstores");
+  const initialBookstores: Bookstore[] = bookStores
+    ? JSON.parse(bookStores)
+    : [];
 
   return (
     <div className="container">
-      <h1>Saved Books</h1>
+      <h1>Favorite Books</h1>
       <div className="book-list">
         {books.length > 0 ? (
           <div>
@@ -48,45 +67,34 @@ const initialBookstores: Bookstore[] = bookStores ? JSON.parse(bookStores) : [];
           <p>No saved books</p>
         )}
       </div>
-    
-    
+
       <div className="container">
-    <h1>Bookstores</h1>
-    <div className="book-list">
-      {initialBookstores.length > 0 ? (
-        <div>
-          <p>Bookstores</p>
-          {initialBookstores.map((bookstore) => (
+        <h1>Bookstores</h1>
+        <div className="book-list">
+          {initialBookstores.length > 0 ? (
             <div>
-              <h2>{bookstore.name}</h2>
-              <p>Opening Hours: {bookstore.opening_hours}</p>
-              <p>Phone: {bookstore.phone}</p>
-              <p>Website: {bookstore.website}</p>
-              <p>City: {bookstore.city}</p>
-              <p>Street: {bookstore.street}</p>
-              <p>Postcode: {bookstore.postcode}</p>
-              <p>House Number: {bookstore.housenumber}</p>
-              <p>State: {bookstore.state}</p>
+              <p>Bookstores</p>
+              {initialBookstores.map((bookstore) => (
+                <div key={bookstore.name}>
+                  <h2>{bookstore.name}</h2>
+                  <p>Opening Hours: {bookstore.opening_hours}</p>
+                  <p>Phone: {bookstore.phone}</p>
+                  <p>Website: {bookstore.website}</p>
+                  <p>City: {bookstore.city}</p>
+                  <p>Street: {bookstore.street}</p>
+                  <p>Postcode: {bookstore.postcode}</p>
+                  <p>House Number: {bookstore.housenumber}</p>
+                  <p>State: {bookstore.state}</p>
+                </div>
+              ))}
             </div>
-          ))}
+          ) : (
+            <p>No bookstores found</p>
+          )}
         </div>
-      ) : (
-        <p>No bookstores found</p>
-      )}
-    </div>
-  </div>
-    
-    
-    
-    
-    
-    
+      </div>
     </div>
   );
 };
-
-
-
-
 
 export default SavedBooksPage;

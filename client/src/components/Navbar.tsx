@@ -20,7 +20,7 @@ const Navbar = () => {
     <div className="nav display-flex justify-space-between align-center py-2 px-5">
       <div className="nav-title">
         <Link to='/'>
-          <h2>Volunteer Management System</h2>
+          <h2>Book Shelter</h2>
         </Link>
 {!loginCheck ? (
           <button className='btn' type='button'>
