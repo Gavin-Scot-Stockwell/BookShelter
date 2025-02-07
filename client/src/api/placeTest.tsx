@@ -4,7 +4,7 @@ let lat: number;
 let lon: number;
 //let mod: number;
 
-const mod: number = .1;//this will need to be changed to something that the user can control
+const mod: number = 0.1; //this will need to be changed to something that the user can control
 function getCurrentPosition(): Promise<{ lat: number; lon: number }> {
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(
@@ -19,7 +19,6 @@ function getCurrentPosition(): Promise<{ lat: number; lon: number }> {
     );
   });
 }
-
 
 async function apiTest() {
   try {
@@ -51,38 +50,34 @@ async function apiTest() {
                         out geom;
                     `),
     }).then((data) => data.json());
-    
 
     console.log(JSON.stringify(result, null, 2));
 
     const storeArray: Bookstore[] = [];
-    
+
     for (let i = 0; i < result.elements.length; i++) {
-        const store: Bookstore = {
-            name: result.elements[i].tags.name,
-            opening_hours: result.elements[i].tags.opening_hours,
-            phone: result.elements[i].tags.phone,
-            website: result.elements[i].tags.website,
-            city: result.elements[i].tags["addr:city"],
-            street: result.elements[i].tags["addr:street"],
-            postcode: result.elements[i].tags["addr:postcode"],
-            housenumber: result.elements[i].tags["addr:housenumber"],
-            state: result.elements[i].tags["addr:state"]
-        };
-    
-        storeArray.push(store);
+      const store: Bookstore = {
+        name: result.elements[i].tags.name,
+        opening_hours: result.elements[i].tags.opening_hours,
+        phone: result.elements[i].tags.phone,
+        website: result.elements[i].tags.website,
+        city: result.elements[i].tags["addr:city"],
+        street: result.elements[i].tags["addr:street"],
+        postcode: result.elements[i].tags["addr:postcode"],
+        housenumber: result.elements[i].tags["addr:housenumber"],
+        state: result.elements[i].tags["addr:state"],
+      };
+
+      storeArray.push(store);
     }
-    
+
     //console.info(storeArray);
-   
+
     localStorage.setItem("bookstores", JSON.stringify(storeArray));
     console.info(localStorage.getItem("bookstores"));
-
-    
-   
-} catch (error) {
+  } catch (error) {
     console.error(error);
   }
 }
 
-export { apiTest }
+export { apiTest };
