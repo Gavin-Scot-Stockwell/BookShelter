@@ -43,7 +43,7 @@ const Navbar = () => {
           </button>
         )}
 
-        <button className="btn" type="button" onClick={() => handleProtectedNavigation("/show-volunteers")}>
+        <button className="btn" type="button" onClick={() => handleProtectedNavigation("/saved-books")}>
           Saved Books
         </button>
 
