@@ -14,7 +14,7 @@ function getCurrentPosition(): Promise<{ lat: number; lon: number }> {
       },
       (error) => {
         if (error.code === error.PERMISSION_DENIED) {
-          reject('Error: User denied Geolocation');
+          reject("Error: User denied Geolocation");
         } else {
           reject(`Error: ${error.message}`);
         }
@@ -29,7 +29,7 @@ async function apiTest() {
     lat = position.lat;
     lon = position.lon;
 
-    console.log(`Latitude: ${lat}, Longitude: ${lon}`);
+    // console.log(`Latitude: ${lat}, Longitude: ${lon}`);
 
     const result = await fetch("https://overpass-api.de/api/interpreter", {
       method: "POST",
@@ -51,7 +51,7 @@ async function apiTest() {
                     `),
     }).then((data) => data.json());
 
-    console.log(JSON.stringify(result, null, 2));
+    // console.debug(JSON.stringify(result, null, 2));  // for debugging
 
     const storeArray: Bookstore[] = [];
 
@@ -72,7 +72,7 @@ async function apiTest() {
     }
 
     localStorage.setItem("bookstores", JSON.stringify(storeArray));
-    console.info(localStorage.getItem("bookstores"));
+    // console.info(localStorage.getItem("bookstores")); // for debugging
   } catch (error) {
     console.error(error);
     alert(error); // Show the error to the user, if you want

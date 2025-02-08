@@ -11,6 +11,7 @@ const SavedBooksPage = () => {
   const initialBooks: Book[] = savedBooks ? JSON.parse(savedBooks) : [];
   const [books, setBooks] = useState<Book[]>(initialBooks);
   const [loginCheck, setLoginCheck] = useState(false);
+  const [bookstores, setBookstores] = useState<Bookstore[]>([]);
 
   const checkAndRedirectIfNotLoggedIn = () => {
     if (!auth.loggedIn()) {
@@ -28,7 +29,15 @@ const SavedBooksPage = () => {
 
   useEffect(() => {
     if (loginCheck) {
-      apiTest();
+      const fetchData = async () => {
+        await apiTest();
+        const storedBookstores = localStorage.getItem("bookstores");
+        if (storedBookstores) {
+          setBookstores(JSON.parse(storedBookstores));
+        }
+      };
+      
+      fetchData();
     }
   }, [loginCheck]);
 
@@ -40,29 +49,21 @@ const SavedBooksPage = () => {
     localStorage.setItem("savedBooks", JSON.stringify(updatedBooks));
   };
 
-  const bookStores = localStorage.getItem("bookstores");
-  const initialBookstores: Bookstore[] = bookStores
-    ? JSON.parse(bookStores)
-    : [];
-
   return (
     <div className="container">
       <h1>Favorite Books</h1>
       <div className="book-list">
         {books.length > 0 ? (
-          <div>
-            <p>Books</p>
-            {books.map((book) => (
-              <div id={book.key.toString()} key={book.key.toString()}>
-                <h2>{book.title}</h2>
-                <p>Author(s): {book.authors.join(", ")}</p>
-                <p>First Published: {book.first_publish_year}</p>
-                <button onClick={() => removeBook(book.key.toString())}>
-                  Remove Book
-                </button>
-              </div>
-            ))}
-          </div>
+          books.map((book) => (
+            <div id={book.key.toString()} key={book.key.toString()}>
+              <h2>{book.title}</h2>
+              <p>Author(s): {book.authors.join(", ")}</p>
+              <p>First Published: {book.first_publish_year}</p>
+              <button onClick={() => removeBook(book.key.toString())}>
+                Remove Book
+              </button>
+            </div>
+          ))
         ) : (
           <p>No saved books</p>
         )}
@@ -71,23 +72,20 @@ const SavedBooksPage = () => {
       <div className="container">
         <h1>Bookstores</h1>
         <div className="book-list">
-          {initialBookstores.length > 0 ? (
-            <div>
-              <p>Bookstores</p>
-              {initialBookstores.map((bookstore) => (
-                <div key={bookstore.name}>
-                  <h2>{bookstore.name}</h2>
-                  <p>Opening Hours: {bookstore.opening_hours}</p>
-                  <p>Phone: {bookstore.phone}</p>
-                  <p>Website: {bookstore.website}</p>
-                  <p>City: {bookstore.city}</p>
-                  <p>Street: {bookstore.street}</p>
-                  <p>Postcode: {bookstore.postcode}</p>
-                  <p>House Number: {bookstore.housenumber}</p>
-                  <p>State: {bookstore.state}</p>
-                </div>
-              ))}
-            </div>
+          {bookstores.length > 0 ? (
+            bookstores.map((bookstore) => (
+              <div key={bookstore.name}>
+                <h2>{bookstore.name}</h2>
+                <p>Opening Hours: {bookstore.opening_hours}</p>
+                <p>Phone: {bookstore.phone}</p>
+                <p>Website: {bookstore.website}</p>
+                <p>City: {bookstore.city}</p>
+                <p>Street: {bookstore.street}</p>
+                <p>Postcode: {bookstore.postcode}</p>
+                <p>House Number: {bookstore.housenumber}</p>
+                <p>State: {bookstore.state}</p>
+              </div>
+            ))
           ) : (
             <p>No bookstores found</p>
           )}
