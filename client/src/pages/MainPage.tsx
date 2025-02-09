@@ -36,9 +36,6 @@ const BookContainer = () => {
   }, []);
 
   useEffect(() => {
-    const storedBooks = JSON.parse(localStorage.getItem("savedBooks") || "[]");
-    setSavedBooks(storedBooks);
-
     fetchRandomBooksBySubject("science_fiction").then((fetchedBooks) => {
       setBooks(fetchedBooks);
       setCurrentBook(fetchedBooks[0] || null);
@@ -61,7 +58,6 @@ const BookContainer = () => {
 
       const updatedSavedBooks = [...savedBooks, currentBook];
       setSavedBooks(updatedSavedBooks);
-      localStorage.setItem("savedBooks", JSON.stringify(updatedSavedBooks));
 
       await saveBookToDB(currentBook);
       getRandomBook();

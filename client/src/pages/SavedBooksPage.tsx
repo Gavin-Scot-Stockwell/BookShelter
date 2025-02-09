@@ -1,6 +1,6 @@
 import { useEffect, useState, useLayoutEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import type { Book } from "../interfaces/Book";
+import { Book, APIBook } from "../interfaces/Book"; // Correct import
 import Bookstore from "../interfaces/bookstore";
 import auth from "../utils/auth";
 
@@ -33,7 +33,18 @@ const SavedBooksPage = () => {
             throw new Error("Failed to fetch saved books");
           }
           const data = await response.json();
-          setBooks(data); // Set books from the database
+
+          // Transform the authors to an array of strings (if they are objects or strings)
+          const transformedBooks = data.map((book: APIBook) => ({
+            ...book,
+            author: Array.isArray(book.author)
+              ? book.author.map((author) => author.name) // Handle if author is an array of objects
+              : typeof book.author === "string"
+              ? [book.author] // Handle if author is a string
+              : ["Unknown"], // Default to "Unknown" if no author is provided
+          }));
+
+          setBooks(transformedBooks); // Set transformed books
         } catch (error) {
           console.error("Error fetching books:", error);
         }
@@ -78,7 +89,7 @@ const SavedBooksPage = () => {
           books.map((book) => (
             <div id={book.key.toString()} key={book.key.toString()}>
               <h2>{book.title}</h2>
-              <p>Author(s): {Array.isArray(book.authors) ? book.authors.join(", ") : "Unknown"}</p>
+              <p>Author(s): {book.author.join(", ")}</p>
               <p>First Published: {book.first_publish_year}</p>
               <button onClick={() => removeBook(book.key.toString())}>
                 Remove Book
