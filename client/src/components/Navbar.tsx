@@ -17,10 +17,11 @@ const Navbar = () => {
   }, [loginCheck]);
 
   return (
-    <div className="nav display-flex justify-space-between align-center py-2 px-5">
+    <div className="bg-white
+    ">
       <div className="nav-title">
         <Link to='/'>
-          <h2>Volunteer Management System</h2>
+          <h2>Adopt a new book today!</h2>
         </Link>
 {!loginCheck ? (
           <button className='btn' type='button'>

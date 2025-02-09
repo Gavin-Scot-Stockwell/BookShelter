@@ -27,16 +27,16 @@ input:-moz-placeholder {
 
 a {
   font-weight: 500;
-  color: #67aaf9;
+  color: #8b5b29;
   text-decoration: inherit;
 }
 
 a:hover {
-  color: #b95f89;
+  color: #4b3d2d;
 }
 
 body {
-  background: #2ec0f9;
+  background: #e3d4b9;
   background-size: cover;
   background-repeat: no-repeat no-repeat;
   background-position: center center;
@@ -49,15 +49,15 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
-  color: #9fcc2e;
+  color: #8b5b29;
 }
 
 h3 {
-  color: #4b6858;
+  color: #8b5b29;
 }
 
 h4 {
-  color: #424c55;
+  color: #8b5b29;
 }
 
 button {
@@ -68,14 +68,14 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #fff;
+  background-color: #c2b280;
   cursor: pointer;
   transition: border-color 0.25s;
-  color: #67aaf9;
+  color: #000000;
 }
 
 button:hover {
-  border-color: #058ed9;
+  border-color: #ecf0f1;
 }
 
 button:focus,
@@ -115,7 +115,7 @@ tbody tr:nth-child(odd) {
 }
 
 .nav-title a {
-  color: #b95f89;
+  color: #4b3d2d;
 }
 
 .nav-item {
@@ -132,7 +132,7 @@ tbody tr:nth-child(odd) {
 .main-list > div > a {
   display: flex;
   justify-content: center;
-  color: #b95f89;
+  color: #4b3d2d;
 }
 
 .work-list {
@@ -186,9 +186,10 @@ tbody tr:nth-child(odd) {
 }
 
 .form {
-  width: 50%;
-  height: 80%;
-  background-color: #e3d7ff;
+  border-radius: 25px;
+  width: 80%;
+  height: 20%;
+  background-color: #a67c4d;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -202,7 +203,7 @@ tbody tr:nth-child(odd) {
 }
 
 .form > label {
-  color: #4b6858;
+  color: #4b3d2d;
 }
 
 .form > textarea {

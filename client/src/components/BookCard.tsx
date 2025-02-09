@@ -1,6 +1,8 @@
 import { Book } from "../interfaces/Book";
-import { IoRemoveCircleSharp } from "react-icons/io5";
-import { MdAddCircle } from "react-icons/md";
+//import { IoRemoveCircleSharp } from "react-icons/io5";
+import { IoTrashOutline } from "react-icons/io5";
+import { IoLibraryOutline } from "react-icons/io5";
+//import { MdAddCircle } from "react-icons/md";
 
 interface BookCardProps {
   currentBook: Book | null;
@@ -58,11 +60,11 @@ console.log(savedBooks);
       <div className="buttons-container">
         {!isSaved && currentBook && (
           <>
-            <IoRemoveCircleSharp
+            <IoTrashOutline
               className="search-button reject-button"
               onClick={() => getRandomBook?.()}
             />
-            <MdAddCircle
+            <IoLibraryOutline
               className="search-button add-button"
               onClick={() => addToSavedBookList?.()}
             />
