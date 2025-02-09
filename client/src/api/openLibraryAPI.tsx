@@ -20,7 +20,7 @@ const fetchRandomBooksBySubject = async (subject: string): Promise<Book[]> => {
     // Shuffle the books array and pick 3 random books
     const shuffledBooks: APIBook[] = data.works
       .sort(() => 0.5 - Math.random())
-      .slice(0, 3);
+      .slice(0, 50);
 
     // Map API response to Book interface
     return shuffledBooks.map(

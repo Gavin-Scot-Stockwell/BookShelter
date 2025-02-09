@@ -1,15 +1,12 @@
-import { useEffect, useState, useLayoutEffect, useCallback} from "react";
+import { useEffect, useState, useLayoutEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Book } from "../interfaces/Book";
-import { apiTest } from "../api/placeTest";
 import Bookstore from "../interfaces/bookstore";
 import auth from "../utils/auth";
 
 const SavedBooksPage = () => {
   const navigate = useNavigate();
-  const savedBooks = localStorage.getItem("savedBooks");
-  const initialBooks: Book[] = savedBooks ? JSON.parse(savedBooks) : [];
-  const [books, setBooks] = useState<Book[]>(initialBooks);
+  const [books, setBooks] = useState<Book[]>([]);
   const [loginCheck, setLoginCheck] = useState(false);
   const [bookstores, setBookstores] = useState<Bookstore[]>([]);
 
@@ -29,15 +26,28 @@ const SavedBooksPage = () => {
 
   useEffect(() => {
     if (loginCheck) {
-      const fetchData = async () => {
-        await apiTest();
+      const fetchBooks = async () => {
+        try {
+          const response = await fetch("/api/books");
+          if (!response.ok) {
+            throw new Error("Failed to fetch saved books");
+          }
+          const data = await response.json();
+          setBooks(data); // Set books from the database
+        } catch (error) {
+          console.error("Error fetching books:", error);
+        }
+      };
+
+      const fetchBookstores = () => {
         const storedBookstores = localStorage.getItem("bookstores");
         if (storedBookstores) {
           setBookstores(JSON.parse(storedBookstores));
         }
       };
 
-      fetchData();
+      fetchBooks();
+      fetchBookstores();
     }
   }, [loginCheck]);
 
@@ -45,8 +55,6 @@ const SavedBooksPage = () => {
     if (!checkAndRedirectIfNotLoggedIn()) return;
 
     try {
-      /* For now the deletion uses open api's unique key and so it needs to be 
-         url encoded to handle the slashes (e.g. "key": "/works/OL52195W") */
       const encodedKey = encodeURIComponent(bookKey);
       const response = await fetch(`/api/books/${encodedKey}`, {
         method: "DELETE",
@@ -56,9 +64,7 @@ const SavedBooksPage = () => {
         throw new Error("Failed to delete book");
       }
 
-      const updatedBooks = books.filter((book) => book.key !== bookKey);
-      setBooks(updatedBooks);
-      localStorage.setItem("savedBooks", JSON.stringify(updatedBooks));
+      setBooks((prevBooks) => prevBooks.filter((book) => book.key !== bookKey));
     } catch (error) {
       console.error("Error deleting book:", error);
     }
@@ -72,7 +78,7 @@ const SavedBooksPage = () => {
           books.map((book) => (
             <div id={book.key.toString()} key={book.key.toString()}>
               <h2>{book.title}</h2>
-              <p>Author(s): {book.authors.join(", ")}</p>
+              <p>Author(s): {Array.isArray(book.authors) ? book.authors.join(", ") : "Unknown"}</p>
               <p>First Published: {book.first_publish_year}</p>
               <button onClick={() => removeBook(book.key.toString())}>
                 Remove Book
@@ -111,4 +117,3 @@ const SavedBooksPage = () => {
 };
 
 export default SavedBooksPage;
-

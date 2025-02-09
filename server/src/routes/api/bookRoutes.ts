@@ -9,7 +9,7 @@ router.get("/", async (_req: Request, res: Response) => {
         const books = await Book.findAll();
         res.json(books);
     } catch (error: any) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: "Error fetching books", error: error.message });
     }
 });
 
