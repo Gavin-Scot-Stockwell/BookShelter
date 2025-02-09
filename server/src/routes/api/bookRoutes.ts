@@ -20,15 +20,18 @@ router.post("/", async (req: Request, res: Response): Promise<Response> => {
     try {
         const { book } = req.body; // Extract 'book' from request body
 
-        if (!book || !book.key || !book.title) {
+        if (!book || !book.key || !book.title || !book.authors || book.authors.length === 0) {
             return res.status(400).json({ message: "Invalid book data provided" });
         }
+
+        // Convert authors array to a comma-separated string
+        const authorString = book.authors.join(", ");
 
         // Save the book to the database
         const savedBook = await Book.create({
             key: book.key,
             title: book.title,
-            author: book.author || "Unknown Author",
+            author: authorString, // Store the authors as a comma-separated string
             first_publish_year: book.first_publish_year || null,
         });
 
@@ -41,6 +44,7 @@ router.post("/", async (req: Request, res: Response): Promise<Response> => {
         return res.status(500).json({ message: "Internal server error" });
     }
 });
+
 
 // DELETE /works/:id - Delete work by ID
 router.delete('/:id', async (req: Request, res: Response) => {
