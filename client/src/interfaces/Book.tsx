@@ -1,4 +1,5 @@
 export interface APIAuthor {
+  key: string;
   name: string;
 }
 

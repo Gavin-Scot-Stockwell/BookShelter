@@ -42,4 +42,22 @@ router.post("/", async (req: Request, res: Response): Promise<Response> => {
     }
 });
 
+// DELETE /works/:id - Delete work by ID
+router.delete('/:id', async (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    try {
+        const book = await Book.findOne({ where: { key: id } });
+
+        if (!book) {
+            return res.status(404).json({ message: 'Book not found' });
+        }
+
+        await book.destroy();
+        return res.json({ message: 'Book deleted successfully' });
+    } catch (error: any) {
+        return res.status(500).json({ message: error.message });
+    }
+});
+
 export default router;
