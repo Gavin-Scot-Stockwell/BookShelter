@@ -1,52 +1,74 @@
-import { useEffect, useState, useLayoutEffect } from "react";
-import { useNavigate } from "react-router-dom";  
-import type { Book } from "../interfaces/Book";
+import { useEffect, useState, useLayoutEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { Book } from "../interfaces/Book";
 import { apiTest } from "../api/placeTest";
 import Bookstore from "../interfaces/bookstore";
 import auth from "../utils/auth";
+import { fetchBooksFromDB, removeBookFromDB } from "../api/bookApi";
 
 const SavedBooksPage = () => {
-  const navigate = useNavigate();  
-  const savedBooks = localStorage.getItem("savedBooks");
-  const initialBooks: Book[] = savedBooks ? JSON.parse(savedBooks) : [];
-  const [books, setBooks] = useState<Book[]>(initialBooks);
+  const navigate = useNavigate();
+  const [books, setBooks] = useState<Book[]>([]);
   const [loginCheck, setLoginCheck] = useState(false);
   const [bookstores, setBookstores] = useState<Bookstore[]>([]);
 
-  const checkAndRedirectIfNotLoggedIn = () => {
+  const checkAndRedirectIfNotLoggedIn = useCallback(() => {
     if (!auth.loggedIn()) {
       navigate("/login");
       return false;
     }
     return true;
-  };
+  }, [navigate]);
 
   useLayoutEffect(() => {
     if (checkAndRedirectIfNotLoggedIn()) {
       setLoginCheck(true);
     }
-  }, []);
+  }, [checkAndRedirectIfNotLoggedIn]);
 
   useEffect(() => {
     if (loginCheck) {
-      const fetchData = async () => {
-        await apiTest();
-        const storedBookstores = localStorage.getItem("bookstores");
-        if (storedBookstores) {
-          setBookstores(JSON.parse(storedBookstores));
+      const loadBooks = async () => {
+        try {
+          const books = await fetchBooksFromDB();
+          setBooks(books);
+        } catch (error) {
+          console.error("Error fetching books:", error);
         }
       };
-      
-      fetchData();
+
+      const fetchBookstores = async () => {
+        try {
+          await apiTest();
+          const storedBookstores = localStorage.getItem("bookstores");
+          if (storedBookstores) {
+            setBookstores(JSON.parse(storedBookstores));
+          }
+        } catch (error) {
+          console.error("Error fetching bookstores:", error);
+        }
+      };
+
+      loadBooks();
+      fetchBookstores();
     }
   }, [loginCheck]);
 
-  const removeBook = (bookKey: string) => {
+  const removeBook = async (bookKey: string) => {
     if (!checkAndRedirectIfNotLoggedIn()) return;
 
-    const updatedBooks = books.filter((book) => book.key !== bookKey);
-    setBooks(updatedBooks);
-    localStorage.setItem("savedBooks", JSON.stringify(updatedBooks));
+    try {
+      const success = await removeBookFromDB(bookKey);
+      if (success) {
+        setBooks((prevBooks) =>
+          prevBooks.filter((book) => book.key !== bookKey)
+        );
+      } else {
+        console.error("Failed to remove book from database");
+      }
+    } catch (error) {
+      console.error("Error removing book:", error);
+    }
   };
 
   return (

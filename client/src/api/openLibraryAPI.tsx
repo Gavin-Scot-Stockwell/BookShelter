@@ -27,8 +27,8 @@ const fetchRandomBooksBySubject = async (subject: string): Promise<Book[]> => {
       (book: APIBook): Book => ({
         key: book.key,
         title: book.title,
-        authors: book.authors?.map((author) => author.name) || ["Unknown"],
-        first_publish_year: book.first_publish_year?.toString() || "Unknown",
+        authors: book.authors?.map((author) => author.name) ?? ["Unknown"],
+        first_publish_year: book.first_publish_year?.toString() ?? "Unknown",
       })
     );
   } catch (error) {
@@ -36,8 +36,5 @@ const fetchRandomBooksBySubject = async (subject: string): Promise<Book[]> => {
     return [];
   }
 };
-
-// Example usage:
-//fetchRandomBooksBySubject("science_fiction").then((books) => console.log(books));
 
 export { fetchRandomBooksBySubject };

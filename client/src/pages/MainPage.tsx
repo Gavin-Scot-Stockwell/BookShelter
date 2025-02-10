@@ -1,28 +1,25 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";  // Import navigate hook
+import { useNavigate } from "react-router-dom";
 import { Book } from "../interfaces/Book";
 import BookCard from "../components/BookCard";
 import { fetchRandomBooksBySubject } from "../api/openLibraryAPI";
-import auth from "../utils/auth";  // Import authentication utility
+import { saveBookToDB } from "../api/bookApi";
+import auth from "../utils/auth";
+
 
 const BookContainer = () => {
-  const navigate = useNavigate(); // React Router navigation
+  const navigate = useNavigate();
   const [books, setBooks] = useState<Book[]>([]);
   const [currentBook, setCurrentBook] = useState<Book | null>(null);
   const [savedBooks, setSavedBooks] = useState<Book[]>([]);
 
-  // Redirect user to login if not authenticated
   useEffect(() => {
     if (!auth.loggedIn()) {
-      navigate("/login");  // Redirect to login page if not logged in
+      navigate("/login");
     }
-  }, []);  // Runs once on component mount
+  }, []);
 
-  // Load saved books from localStorage when the component mounts
   useEffect(() => {
-    const storedBooks = JSON.parse(localStorage.getItem("savedBooks") || "[]");
-    setSavedBooks(storedBooks);
-
     fetchRandomBooksBySubject("science_fiction").then((fetchedBooks) => {
       setBooks(fetchedBooks);
       setCurrentBook(fetchedBooks[0] || null);
@@ -39,18 +36,18 @@ const BookContainer = () => {
     }
   };
 
-  const addToSavedBookList = () => {
+  const addToSavedBookList = async () => {
     if (currentBook) {
-      console.log("Saving book:", currentBook);
+      console.log("Saving book:", JSON.stringify(currentBook));
 
       const updatedSavedBooks = [...savedBooks, currentBook];
-
-      // Update state
       setSavedBooks(updatedSavedBooks);
 
-      // Store in localStorage
-      localStorage.setItem("savedBooks", JSON.stringify(updatedSavedBooks));
-
+      try {
+        await saveBookToDB(currentBook);
+      } catch (error) {
+        console.error("Failed to save book:", error);
+      }
       getRandomBook();
     }
   };
