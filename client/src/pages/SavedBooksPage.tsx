@@ -37,10 +37,10 @@ const SavedBooksPage = () => {
           // Transform the authors to an array of strings (if they are objects or strings)
           const transformedBooks = data.map((book: APIBook) => ({
             ...book,
-            author: Array.isArray(book.author)
-              ? book.author.map((author) => author.name) // Handle if author is an array of objects
-              : typeof book.author === "string"
-              ? [book.author] // Handle if author is a string
+            authors: Array.isArray(book.authors)
+              ? book.authors.map((authors) => authors.name) // Handle if author is an array of objects
+              : typeof book.authors === "string"
+              ? [book.authors] // Handle if author is a string
               : ["Unknown"], // Default to "Unknown" if no author is provided
           }));
 
@@ -89,7 +89,7 @@ const SavedBooksPage = () => {
           books.map((book) => (
             <div id={book.key.toString()} key={book.key.toString()}>
               <h2>{book.title}</h2>
-              <p>Author(s): {book.author.join(", ")}</p>
+              <p>Author(s): {book.authors.join(", ")}</p>
               <p>First Published: {book.first_publish_year}</p>
               <button onClick={() => removeBook(book.key.toString())}>
                 Remove Book
