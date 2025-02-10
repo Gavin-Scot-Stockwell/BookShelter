@@ -2,9 +2,17 @@ import Bookstore from "../interfaces/bookstore";
 
 let lat: number;
 let lon: number;
-//let mod: number;
+const mod: number = 0.5; 
 
-const mod: number = .1;//this will need to be changed to something that the user can control
+//const getNum = localStorage.getItem("modOut");
+
+//const trueNum = getNum ? JSON.parse(getNum) : .1;
+
+//const mod: number = trueNum;
+
+
+
+//this will need to be changed to something that the user can control
 function getCurrentPosition(): Promise<{ lat: number; lon: number }> {
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(
@@ -75,7 +83,9 @@ async function apiTest() {
     
     //console.info(storeArray);
    
+    
     localStorage.setItem("bookstores", JSON.stringify(storeArray));
+    
     console.info(localStorage.getItem("bookstores"));
 
     

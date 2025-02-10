@@ -6,7 +6,7 @@ export interface Author {
 export interface APIBook {
   key: string;
   title: string;
-  authors?: Author[];
+  author_name?: Author[];
   first_publish_year?: number;
 }
 

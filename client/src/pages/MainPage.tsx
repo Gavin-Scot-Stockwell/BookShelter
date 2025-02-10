@@ -1,19 +1,38 @@
 import { useState, useEffect } from "react";
-import { Book } from "../interfaces/Book"; // No changes here
-import BookCard from "../components/BookCard"; // No changes here
-import {fetchRandomBooksBySubject} from "../api/openLibraryAPI";
+import { Book } from "../interfaces/Book";
+import BookCard from "../components/BookCard";
+import { fetchRandomBooksBySubject } from "../api/openLibraryAPI";
+import { fetchRandomBooksByRandomSubject } from "../api/randomBook";
+
+const random = 'random';
+const veryRandom = 'veryRandom';
 
 const BookContainer = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [currentBook, setCurrentBook] = useState<Book | null>(null);
   const [savedBooks, setSavedBooks] = useState<Book[]>([]);
+  const [selectedOption, setSelectedOption] = useState<string>(() => {
+    return localStorage.getItem('selectedOption') || random;
+  });
 
   useEffect(() => {
-    fetchRandomBooksBySubject("science_fiction").then((fetchedBooks) => {
-      setBooks(fetchedBooks);
-      setCurrentBook(fetchedBooks[0] || null);
-    });
-  }, []);
+    localStorage.setItem('selectedOption', selectedOption);
+    if (selectedOption === veryRandom) {
+      fetchRandomBooksByRandomSubject().then((fetchedBooks) => {
+        setBooks(fetchedBooks);
+        setCurrentBook(fetchedBooks[0] || null);
+      });
+    } else if (selectedOption === random) {
+      fetchRandomBooksBySubject("science_fiction").then((fetchedBooks) => {
+        setBooks(fetchedBooks);
+        setCurrentBook(fetchedBooks[0] || null);
+      });
+    }
+  }, [selectedOption]);
+
+  const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedOption(event.target.value);
+  };
 
   const getRandomBook = () => {
     if (books.length > 1) {
@@ -35,6 +54,24 @@ const BookContainer = () => {
   return (
     <div>
       <h1>Random Books</h1>
+      <label>
+        <input
+          type="radio"
+          name="randomOption"
+          value={random}
+          checked={selectedOption === random}
+          onChange={handleOptionChange}
+        /> Random
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="randomOption"
+          value={veryRandom}
+          checked={selectedOption === veryRandom}
+          onChange={handleOptionChange}
+        /> Very Random
+      </label>
       <BookCard
         currentBook={currentBook}
         addToSavedBookList={addToSavedBookList}

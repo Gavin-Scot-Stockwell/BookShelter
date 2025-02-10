@@ -2,6 +2,7 @@ import { useEffect , useState } from 'react';
 import type { Book } from "../interfaces/Book";
 import { apiTest } from '../api/placeTest'; 
 import Bookstore from "../interfaces/bookstore";
+import ModNumber from '../components/modArea';
 
 const SavedBooksPage = () => {
   const savedBooks = localStorage.getItem('savedBooks');
@@ -49,13 +50,13 @@ const initialBookstores: Bookstore[] = bookStores ? JSON.parse(bookStores) : [];
         )}
       </div>
     
-    
       <div className="container">
     <h1>Bookstores</h1>
     <div className="book-list">
       {initialBookstores.length > 0 ? (
         <div>
           <p>Bookstores</p>
+          <ModNumber></ModNumber>
           {initialBookstores.map((bookstore) => (
             <div>
               <h2>{bookstore.name}</h2>
