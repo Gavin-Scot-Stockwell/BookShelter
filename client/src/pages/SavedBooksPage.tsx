@@ -1,10 +1,10 @@
 import { useEffect, useState, useLayoutEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Book, APIBook } from "../interfaces/Book";
+import { Book } from "../interfaces/Book";
 import { apiTest } from "../api/placeTest";
 import Bookstore from "../interfaces/bookstore";
 import auth from "../utils/auth";
-import { removeBookFromDB } from "../api/bookApi";
+import { fetchBooksFromDB, removeBookFromDB } from "../api/bookApi";
 
 const SavedBooksPage = () => {
   const navigate = useNavigate();
@@ -28,40 +28,28 @@ const SavedBooksPage = () => {
 
   useEffect(() => {
     if (loginCheck) {
-      const fetchBooks = async () => {
+      const loadBooks = async () => {
         try {
-          const response = await fetch("/api/books");
-          if (!response.ok) {
-            throw new Error("Failed to fetch saved books");
-          }
-          const data = await response.json();
-
-          console.debug("Server GET:", data);
-          // Transform the authors to an array of strings (if they are objects or strings)
-          const transformedBooks = data.map((book: APIBook) => ({
-            ...book,
-            authors: Array.isArray(book.authors)
-              ? book.authors.map((authors) => authors.name)
-              : typeof book.authors === "string"
-              ? [book.authors] // Handle if author is a string
-              : ["Unknown"], // Default to "Unknown" if no author is provided
-          }));
-
-          setBooks(transformedBooks); // Set transformed books
+          const books = await fetchBooksFromDB();
+          setBooks(books);
         } catch (error) {
           console.error("Error fetching books:", error);
         }
       };
 
       const fetchBookstores = async () => {
-        await apiTest();
-        const storedBookstores = localStorage.getItem("bookstores");
-        if (storedBookstores) {
-          setBookstores(JSON.parse(storedBookstores));
+        try {
+          await apiTest();
+          const storedBookstores = localStorage.getItem("bookstores");
+          if (storedBookstores) {
+            setBookstores(JSON.parse(storedBookstores));
+          }
+        } catch (error) {
+          console.error("Error fetching bookstores:", error);
         }
       };
 
-      fetchBooks();
+      loadBooks();
       fetchBookstores();
     }
   }, [loginCheck]);
@@ -72,7 +60,9 @@ const SavedBooksPage = () => {
     try {
       const success = await removeBookFromDB(bookKey);
       if (success) {
-        setBooks((prevBooks) => prevBooks.filter((book) => book.key !== bookKey));
+        setBooks((prevBooks) =>
+          prevBooks.filter((book) => book.key !== bookKey)
+        );
       } else {
         console.error("Failed to remove book from database");
       }
