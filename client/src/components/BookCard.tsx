@@ -1,8 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { Book } from "../interfaces/Book";
-import { IoRemoveCircleSharp } from "react-icons/io5";
-import { MdAddCircle } from "react-icons/md";
+import { IoTrashOutline } from "react-icons/io5";
+import { IoLibraryOutline } from "react-icons/io5";
 import auth from "../utils/auth";
+
+//import { MdAddCircle } from "react-icons/md";
+//import { IoRemoveCircleSharp } from "react-icons/io5";
 
 interface BookCardProps {
   currentBook: Book | null;
@@ -57,11 +60,11 @@ const BookCard = ({
       <div className="buttons-container">
         {!isSaved && currentBook && (
           <>
-            <IoRemoveCircleSharp
+            <IoTrashOutline
               className="search-button reject-button"
               onClick={handleGetRandomBook}
             />
-            <MdAddCircle
+            <IoLibraryOutline
               className="search-button add-button"
               onClick={handleSaveBook}
             />

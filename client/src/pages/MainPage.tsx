@@ -54,13 +54,15 @@ const BookContainer = () => {
 
   return (
     <div>
-      <h1>Random Books</h1>
+      <div className='bg-[url(/assets/img/ugur-akdemir-XT-o5O458as-unsplash.jpg)] bg-fixed ...'>
+      <h1>Find a new book!</h1>
       <BookCard
         currentBook={currentBook}
         addToSavedBookList={addToSavedBookList}
         getRandomBook={getRandomBook}
         isSaved={savedBooks.some((book) => book.key === currentBook?.key)}
       />
+      </div>
     </div>
   );
 };
