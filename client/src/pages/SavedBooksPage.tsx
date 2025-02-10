@@ -34,11 +34,12 @@ const SavedBooksPage = () => {
           }
           const data = await response.json();
 
+          console.debug("Server GET:", data);
           // Transform the authors to an array of strings (if they are objects or strings)
           const transformedBooks = data.map((book: APIBook) => ({
             ...book,
             authors: Array.isArray(book.authors)
-              ? book.authors.map((authors) => authors.name) // Handle if author is an array of objects
+              ? book.authors.map((authors) => authors.name) // Correct handling of author objects
               : typeof book.authors === "string"
               ? [book.authors] // Handle if author is a string
               : ["Unknown"], // Default to "Unknown" if no author is provided

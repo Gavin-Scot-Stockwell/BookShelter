@@ -7,11 +7,16 @@ const router = express.Router();
 router.get("/", async (_req: Request, res: Response) => {
     try {
         const books = await Book.findAll();
-        res.json(books);
+        const transformedBooks = books.map(book => ({
+            ...book.toJSON(),
+            authors: book.author.split(', ').map(name => ({ name })) // Convert string to an array of objects
+        }));
+        res.json(transformedBooks);
     } catch (error: any) {
         res.status(500).json({ message: "Error fetching books", error: error.message });
     }
 });
+
 
 // POST /books - Save a new book
 router.post("/", async (req: Request, res: Response): Promise<Response> => {
