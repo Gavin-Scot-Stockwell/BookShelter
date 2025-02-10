@@ -1,11 +1,12 @@
 import { DataTypes, type Sequelize, Model, type Optional } from "sequelize";
 
+// The book attributes follow the properties the openlibrary api returns
 interface BookAttributes {
   id: number;
-  key: string;
+  key: string;  // this is an openlibrary attribute that is unique for each book
   title: string;
   author: string;
-  first_publish_year: number | null;
+  first_publish_year: number | null;  // this could be empty
 }
 
 interface BookCreationAttributes extends Optional<BookAttributes, "id"> {}

@@ -23,7 +23,7 @@ router.post("/", async (req: Request, res: Response): Promise<Response> => {
     console.log("Incoming book data:", req.body);
 
     try {
-        const { book } = req.body; // Extract 'book' from request body
+        const { book } = req.body;
 
         if (!book || !book.key || !book.title || !book.authors || book.authors.length === 0) {
             return res.status(400).json({ message: "Invalid book data provided" });
@@ -51,7 +51,7 @@ router.post("/", async (req: Request, res: Response): Promise<Response> => {
 });
 
 
-// DELETE /works/:id - Delete work by ID
+// DELETE /books/:id - Delete book by ID
 router.delete('/:id', async (req: Request, res: Response) => {
     const { id } = req.params;
 

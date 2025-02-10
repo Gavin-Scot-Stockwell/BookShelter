@@ -4,6 +4,7 @@ import { Book, APIBook } from "../interfaces/Book";
 import { apiTest } from "../api/placeTest";
 import Bookstore from "../interfaces/bookstore";
 import auth from "../utils/auth";
+import { removeBookFromDB } from "../api/bookApi";
 
 const SavedBooksPage = () => {
   const navigate = useNavigate();
@@ -69,18 +70,14 @@ const SavedBooksPage = () => {
     if (!checkAndRedirectIfNotLoggedIn()) return;
 
     try {
-      const encodedKey = encodeURIComponent(bookKey);
-      const response = await fetch(`/api/books/${encodedKey}`, {
-        method: "DELETE",
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to delete book");
+      const success = await removeBookFromDB(bookKey);
+      if (success) {
+        setBooks((prevBooks) => prevBooks.filter((book) => book.key !== bookKey));
+      } else {
+        console.error("Failed to remove book from database");
       }
-
-      setBooks((prevBooks) => prevBooks.filter((book) => book.key !== bookKey));
     } catch (error) {
-      console.error("Error deleting book:", error);
+      console.error("Error removing book:", error);
     }
   };
 

@@ -3,25 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Book } from "../interfaces/Book";
 import BookCard from "../components/BookCard";
 import { fetchRandomBooksBySubject } from "../api/openLibraryAPI";
+import { saveBookToDB } from "../api/bookApi";
 import auth from "../utils/auth";
 
-export const saveBookToDB = async (currentBook: Book) => {
-  try {
-    const response = await fetch("/api/books", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${auth.getToken()}`,
-      },
-      body: JSON.stringify({ book: currentBook }),
-    });
-
-    const data = await response.json();
-    console.log("Saved book to the database:", data);
-  } catch (error) {
-    console.error("Error saving book to the database", error);
-  }
-};
 
 const BookContainer = () => {
   const navigate = useNavigate();
@@ -59,7 +43,11 @@ const BookContainer = () => {
       const updatedSavedBooks = [...savedBooks, currentBook];
       setSavedBooks(updatedSavedBooks);
 
-      await saveBookToDB(currentBook);
+      try {
+        await saveBookToDB(currentBook);
+      } catch (error) {
+        console.error("Failed to save book:", error);
+      }
       getRandomBook();
     }
   };
