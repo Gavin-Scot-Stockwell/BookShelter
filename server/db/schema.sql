@@ -1,5 +1,5 @@
 -- DROP DATABASE
-DROP DATABASE IF EXISTS volunteer_db;
+DROP DATABASE IF EXISTS bookshelter_db;
 
 -- CREATE DATABASE
-CREATE DATABASE volunteer_db;
+CREATE DATABASE bookshelter_db;

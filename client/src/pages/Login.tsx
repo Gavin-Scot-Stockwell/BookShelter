@@ -12,13 +12,14 @@ const Login = () => {
     password: '',
   });
 
-
+  const [submissionStatus, setSubmissionStatus] = useState<string | null>(null);
 
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
+    setSubmissionStatus("");
     setLoginData({
       ...loginData,
       [name]: value,
@@ -32,6 +33,7 @@ const Login = () => {
       Auth.login(data.token);
     } catch (err) {
       console.error('Failed to login', err);
+      setSubmissionStatus("error");
     }
   };
 
@@ -63,6 +65,7 @@ const Login = () => {
           <button className='btn btn-primary' type='submit'>
             Login
           </button>
+          {submissionStatus === "error" && (<div className="text-error">Invalid credentials</div>)}
         </div>
       </form>
     </div>

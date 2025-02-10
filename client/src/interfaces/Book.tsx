@@ -1,4 +1,5 @@
-export interface Author {
+// public api interfaces
+export interface APIAuthor {
   key: string;
   name: string;
 }
@@ -6,14 +7,14 @@ export interface Author {
 export interface APIBook {
   key: string;
   title: string;
-  authors?: Author[];
-  first_publish_year?: number;
+  authors: APIAuthor[];
+  first_publish_year: number;
 }
 
+// internal api interfaces
 export interface Book {
   key: string;
   title: string;
   authors: string[];
   first_publish_year: string;
 }
-

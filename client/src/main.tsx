@@ -19,7 +19,7 @@ const router = createBrowserRouter([
         element: <MainPage />,
       },
       {
-        path: "/show-volunteers",
+        path: "/saved-books",
         element: <SavedBooksPage />,
       },
       {

@@ -135,40 +135,6 @@ tbody tr:nth-child(odd) {
   color: #4b3d2d;
 }
 
-.work-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-}
-
-.work-details {
-  text-align: center;
-  min-width: 10%;
-  width: 300px;
-  height: 300px;
-  margin: 5% 5%;
-  border: 3px solid #424c55;
-  box-shadow: 10px 5px 5px black;
-}
-
-.volunteer {
-  width: 100%;
-}
-
-.new-volunteer {
-  display: flex;
-  justify-content: center;
-}
-
-.new-volunteer > a {
-  color: #b95f89;
-}
-
-.volunteer-list {
-  display: flex;
-  justify-content: space-evenly;
-}
-
 .v-card {
   text-align: center;
   min-width: 10%;
