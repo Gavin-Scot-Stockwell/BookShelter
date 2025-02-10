@@ -1,6 +1,7 @@
 import { useEffect, useState, useLayoutEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Book, APIBook } from "../interfaces/Book"; // Correct import
+import { Book, APIBook } from "../interfaces/Book";
+import { apiTest } from "../api/placeTest";
 import Bookstore from "../interfaces/bookstore";
 import auth from "../utils/auth";
 
@@ -39,7 +40,7 @@ const SavedBooksPage = () => {
           const transformedBooks = data.map((book: APIBook) => ({
             ...book,
             authors: Array.isArray(book.authors)
-              ? book.authors.map((authors) => authors.name) // Correct handling of author objects
+              ? book.authors.map((authors) => authors.name)
               : typeof book.authors === "string"
               ? [book.authors] // Handle if author is a string
               : ["Unknown"], // Default to "Unknown" if no author is provided
@@ -51,7 +52,8 @@ const SavedBooksPage = () => {
         }
       };
 
-      const fetchBookstores = () => {
+      const fetchBookstores = async () => {
+        await apiTest();
         const storedBookstores = localStorage.getItem("bookstores");
         if (storedBookstores) {
           setBookstores(JSON.parse(storedBookstores));
