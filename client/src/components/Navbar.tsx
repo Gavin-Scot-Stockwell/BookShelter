@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import auth from "../utils/auth";
+
 import {
   Disclosure,
   DisclosureButton,
@@ -24,6 +25,7 @@ const navigation = [
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
+
 
 const Navbar = () => {
   const [loginCheck, setLoginCheck] = useState(auth.loggedIn());
@@ -186,6 +188,7 @@ const Navbar = () => {
             </Menu>
           </div>
         </div>
+
       </div>
 
       <DisclosurePanel className="sm:hidden">
@@ -213,29 +216,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-// const Navbar = () => {
-//   const [loginCheck, setLoginCheck] = useState(false);
-
-// const checkLogin = () => {
-//   if (auth.loggedIn()) {
-//     setLoginCheck(true);
-//   }
-// };
-
-// useEffect(() => {
-//   console.log(loginCheck);
-//   checkLogin();
-// }, [loginCheck]);
-
-//   </button>
-// ) : (
-//   <button
-//     className='btn'
-//     type='button'
-//     onClick={() => {
-//       auth.logout();
-//     }}
-//   >
-//     Logout
-//   </button>
