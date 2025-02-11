@@ -3,6 +3,7 @@ import { useState, type FormEvent, type ChangeEvent } from 'react';
 import Auth from '../utils/auth';
 import { login } from '../api/authAPI';
 import type { UserLogin } from '../interfaces/UserLogin';
+import bookLogo from "../assets/img/logo.jpeg";
 
 
 
@@ -37,39 +38,75 @@ const Login = () => {
     }
   };
 
-  return (
-    <div className='form-container'>
-      <form className='form login-form' onSubmit={handleSubmit}>
-        <h2>Returning User?</h2>
-        <div className='form-group'>
-          <label>Username: </label>
-          <input
-            className='form-input'
+return (
+        <body className="h-full bg-[#D9CBA0]">
+      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+          <img
+                  alt="Book Shelter"
+                  src={bookLogo}
+            className="mx-auto h-10 w-auto relative flex rounded-full"
+          />
+          <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
+          Returning User? Login to your account
+          </h2>
+        </div>
+
+        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+          <form action="#" method="POST" className="space-y-6" onSubmit={handleSubmit}>
+            <div>
+              <label className="block text-sm/6 font-medium text-gray-900">
+                Username: 
+              </label>
+              <div className="mt-2">
+                <input
+            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
             type='text'
             name='username'
             value={loginData.username || ''}
             onChange={handleChange}
-          />
-        </div>
-        <div className='form-group'>
-          <label>Password: </label>
-          <input
-            className='form-input'
+                />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center justify-between">
+                <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">
+                  Password: 
+                </label>
+              </div>
+              <div className="mt-2">
+                <input
+            className='form-inputblock w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"'
             type='password'
             name='password'
             value={loginData.password || ''}
             onChange={handleChange}
-          />
-        </div>
-        <div className='form-group'>
-          <button className='btn btn-primary' type='submit'>
-            Login
-          </button>
+                />
+              </div>
+            </div>
+
+            <div>
+              <button
+                type="submit"
+                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+                Login
+                </button>
           {submissionStatus === "error" && (<div className="text-error">Invalid credentials</div>)}
         </div>
-      </form>
-    </div>
-  );
-};
+          </form>
+
+          {/* <p className="mt-10 text-center text-sm/6 text-gray-500">
+            Not a member?{' '}
+            <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+              Start a 14 day free trial
+            </a>
+          </p> */}
+        </div>
+      </div>
+    </body>
+  )
+}
 
 export default Login;

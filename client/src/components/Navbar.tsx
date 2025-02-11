@@ -17,9 +17,10 @@ import bookLogo from "../assets/img/logo.jpeg";
 // These are the links/buttons that will be displayed in the navbar
 const navigation = [
   { name: "Login", href: "/login", current: false },
-  { name: "Saved Books", href: "/show-volunteers", current: false },
+  { name: "Saved Books", href: "/saved-books", current: false },
   { name: "Home", href: "/", current: false },
-  { name: "About", href: "/about", current: false },
+  { name: "Logout", href: "/login", current: false },
+  { name: "Contact Us", href: "/Contact", current: false },
 ];
 
 function classNames(...classes: string[]) {
@@ -68,7 +69,7 @@ const Navbar = () => {
                 <img
                   alt="Book Shelter"
                   src={bookLogo}
-                  className="h-8 w-auto"
+                  className="h-8 w-auto relative flex rounded-full"
                 />
               </div>
             </div>
@@ -88,15 +89,15 @@ const Navbar = () => {
                   </Link>
                 ))} */}
                 <Link to="/">
-                  <h2>Adopt a new book today!</h2>
+                  <h2 className="btn cursor-pointer text-[#D9CBA0] hover:text-white">Adopt a new book today!</h2>
                 </Link>
                 {!loginCheck ? (
-                  <button className="btn" type="button">
+                  <button className="btn cursor-pointer text-[#D9CBA0] hover:text-white" type="button">
                     <Link to="/login">Login</Link>
                   </button>
                 ) : (
                   <button
-                    className="btn"
+                    className="btn cursor-pointer text-[#D9CBA0] hover:text-white"
                     type="button"
                     onClick={() => {
                       auth.logout();
@@ -109,7 +110,7 @@ const Navbar = () => {
                 )}
 
                 <button
-                  className="btn cursor-pointer"
+                  className="btn cursor-pointer text-[#D9CBA0] hover:text-white"
                   type="button"
                   onClick={() => handleProtectedNavigation("/saved-books")}
                 >
@@ -117,7 +118,7 @@ const Navbar = () => {
                 </button>
 
                 <button
-                  className="btn cursor-pointer"
+                  className="btn cursor-pointer text-[#D9CBA0] hover:text-white"
                   type="button"
                   onClick={() => handleProtectedNavigation("/")}
                 >
@@ -126,10 +127,10 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+          <div className="btn cursor-pointer text-[#D9CBA0] hover:text-white absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <button
               type="button"
-              className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
+              className="btn cursor-pointer relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
             >
               <span className="absolute -inset-1.5" />
               <span className="sr-only">View notifications</span>
@@ -139,13 +140,13 @@ const Navbar = () => {
             {/* Profile dropdown */}
             <Menu as="div" className="relative ml-3">
               <div>
-                <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                <MenuButton className="btn cursor-pointer hover:text-white relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">Open user menu</span>
                   <img
                     alt=""
                     src={bookLogo}
-                    className="size-2 rounded-s-xs"
+                    className="size-2 rounded-s-xs btn cursor-pointer"
                   />
                 </MenuButton>
               </div>
@@ -161,16 +162,16 @@ const Navbar = () => {
                     Saved Books
                   </a> */}
                                 <button
-                  className="btn cursor-pointer"
+                  className="btn cursor-pointer block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
                   type="button"
-                  onClick={() => handleProtectedNavigation("/show-volunteers")}
+                  onClick={() => handleProtectedNavigation("/saved-books")}
                 >
                   Saved Books
                 </button>
                 </MenuItem>
                 <MenuItem>
                   <a
-                    href="#"
+                    href="./"
                     className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
                   >
                     Find a book!
@@ -179,8 +180,14 @@ const Navbar = () => {
                 <MenuItem>
                   <a
                     href="#"
-                    className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
-                  >
+                    className="btn cursor-pointer block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
+                    type="button"
+                    onClick={() => {
+                      auth.logout();
+                      setLoginCheck(false);
+                      navigate("/login");
+                    }}
+                              >
                     Log out
                   </a>
                 </MenuItem>
