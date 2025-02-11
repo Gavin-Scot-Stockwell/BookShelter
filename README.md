@@ -2,7 +2,7 @@
 
 ## Description
 
-Book Shelter presents a random book with the option to save it to a favorites shopping list. Easily locate local booksellers and suppor their business in the accompanying list.
+Book Shelter presents a random book and the option to save it to a favorites shopping list. Use the locate local booksellers list to support their business.
 
 ## Table of Contents
 
@@ -15,9 +15,9 @@ Book Shelter presents a random book with the option to save it to a favorites sh
 
 ## Installation
 
-1. Change the project's root directory
+1. Change to the project's root directory
 1. Create the PostgreSQL database
-   - Create a server/.env containing your admin credentials and a random JWT password (refer to the .env.EXAMPLE located there).
+   - Create a server/.env containing your PostgreSQL admin credentials and a random JWT password (refer to the .env.EXAMPLE located there).
    - Use psql to import the server/db/schema.sql (e.g. psql -U postgres -f db/schema.sql)
 1. Install the dependency modules: npm install
 1. Build the server and seed the database:
@@ -26,7 +26,9 @@ Book Shelter presents a random book with the option to save it to a favorites sh
 
 ## Usage
 
-1. Change the project's root directory
+NOTE: The application requires access to your system location in order to locate bookstores near you
+
+1. Change to the project's root directory
 1. Run: npm run dev
 1. Browse to the running app at: http://localhost:3000/
 
@@ -56,14 +58,14 @@ Here are some helpful resources:
 
 Test instructions:
 
-1. Try using the reject and save buttons on the search page.
-1. On the saved page ensure the list is updated from the search page additons.
-1. Try the image and email links.
-1. Try removing candidates until the list is empty.
-1. Test the sort opton.
-1. Try filtering on text in one of the bio fields.
-1. Try filtering on a nonexisting text string.
-1. Clear the filter to be sure the saved candidates are visible again.
+1. Try logging in with valid credentails (available in the server/src/seeds/user-seeds.ts file)
+1. Try logging in with invalid credentails: expect an error message
+1. Try using the reject and save buttons on the main page.
+1. On the saved favorites page ensure the list is updated with the items you added on the main page.
+1. Try removing books until the list is empty.
+1. Ensure the shop locations list is populated
+1. Logout. Ensure that you are unable to access any of the Book Shelter pages
+1. Login and leave the page open an hour or longer for the JWT ticket to expire (or remove the id_token from your localStore). Ensure that you are unable to access any of the Book Shelter pages, and if you click on any actions you are redirected to the login page
 
 ## Questions
 
@@ -82,4 +84,3 @@ If you have any questions, feel free to reach out to us:
 - Gavin Stockwell
   - GitHub: [Gavin-Scot-Stockwell](https://github.com/Gavin-Scot-Stockwell)
   - Email: gsstockwell@gmail.com
-
