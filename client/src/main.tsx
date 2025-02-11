@@ -5,7 +5,7 @@ import "./index2.css";
 import App from "./App.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
 import MainPage from "./pages/MainPage.tsx";
-import SavedBooksPage from "./pages/SavedBooksPage.tsx";
+import SavedBooksPage from "./pages/SavedBooksPage2.tsx";
 import Login from "./pages/Login.tsx";
 import Contact from "./pages/ContactUs.tsx";
 

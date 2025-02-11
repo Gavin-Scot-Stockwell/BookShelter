@@ -39,7 +39,7 @@ const Login = () => {
   };
 
 return (
-        <body className="h-full bg-[#D9CBA0]">
+        <div className="min-h-screen bg-[#D9CBA0]">
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -89,7 +89,7 @@ return (
             <div>
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="flex w-full justify-center rounded-md bg-[#4b3d2d] px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-[#8B5B29] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Login
                 </button>
@@ -105,7 +105,7 @@ return (
           </p> */}
         </div>
       </div>
-    </body>
+    </div>
   )
 }
 

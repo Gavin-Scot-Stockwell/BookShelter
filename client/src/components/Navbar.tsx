@@ -16,9 +16,9 @@ import bookLogo from "../assets/img/logo.jpeg";
 
 // These are the links/buttons that will be displayed in the navbar
 const navigation = [
-  { name: "Login", href: "/login", current: false },
-  { name: "Saved Books", href: "/saved-books", current: false },
   { name: "Home", href: "/", current: false },
+  { name: "Saved Books", href: "/saved-books", current: false },
+  { name: "Login", href: "/login", current: false },
   { name: "Logout", href: "/login", current: false },
   { name: "Contact Us", href: "/Contact", current: false },
 ];
@@ -73,21 +73,11 @@ const Navbar = () => {
                 />
               </div>
             </div>
+
+
+            
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
-                {/* {navigation.map((item) => (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    aria-current={item.current ? 'page' : undefined}
-                    className={classNames(
-                      item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                      'rounded-md px-3 py-2 text-sm font-medium',
-                    )}
-                  >
-                    {item.name}
-                  </Link>
-                ))} */}
                 <Link to="/">
                   <h2 className="btn cursor-pointer text-[#D9CBA0] hover:text-white">Adopt a new book today!</h2>
                 </Link>
