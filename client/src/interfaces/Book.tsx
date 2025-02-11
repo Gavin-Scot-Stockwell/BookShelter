@@ -15,6 +15,15 @@ export interface APIBook {
 export interface Book {
   key: string;
   title: string;
-  authors: string[];
+  authors: string[]; // or author_name: string[];
   first_publish_year: string;
 }
+
+
+export interface SearchAPIBook {
+  key: string;
+  title: string;
+  author_name: string[]; // or author_name: string[];
+  first_publish_year: string;
+}
+

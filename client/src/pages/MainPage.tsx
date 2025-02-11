@@ -29,7 +29,7 @@ const BookContainer = () => {
         setBooks(fetchedBooks);
         setCurrentBook(fetchedBooks[0] || null);
       });
-    } else if (selectedOption === veryRandom) {
+    } else {
       fetchRandomBooksByRandomSubject().then((fetchedBooks) => {
         setBooks(fetchedBooks);
         setCurrentBook(fetchedBooks[0] || null);

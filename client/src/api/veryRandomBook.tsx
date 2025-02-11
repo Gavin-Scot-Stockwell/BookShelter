@@ -1,4 +1,4 @@
-import { Book, APIBook } from "../interfaces/Book";
+import { Book, SearchAPIBook } from "../interfaces/Book";
 
 const bookSubjects = [
   "Science Fiction", "Fantasy", "Mystery", "Thriller", "Romance", "Historical Fiction", "Horror", "Dystopian", "Adventure", "Magical Realism",
@@ -48,22 +48,24 @@ const fetchRandomBooksByRandomSubject = async (subject: string = chooseRandomSub
       throw new Error(`Error fetching books: ${response.statusText}`);
     }
 
-    const data: { docs: APIBook[] } = await response.json();
+    const data: { docs: SearchAPIBook[] } = await response.json();
     if (!data.docs || data.docs.length === 0) {
       throw new Error("No books found for this subject.");
     }
 
     // Shuffle the books array and pick the specified number of random books
-    const shuffledBooks: APIBook[] = data.docs
+    const shuffledBooks: SearchAPIBook[] = data.docs
       .sort(() => 0.5 - Math.random())
       .slice(0, limit);
 
     // Map API response to Book interface
+
+    //writes over top this interface
     return shuffledBooks.map(
-      (book: APIBook): Book => ({
+      (book: SearchAPIBook): Book => ({
         key: book.key,
         title: book.title,
-        authors: book.authors?.map((author) => author.name) ?? ["Unknown"],
+        authors: book.author_name || ["Unknown"],
         first_publish_year: book.first_publish_year?.toString() || "Unknown",
       })
     );
