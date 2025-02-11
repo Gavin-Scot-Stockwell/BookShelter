@@ -65,7 +65,7 @@ Test instructions:
 1. Try removing books until the list is empty.
 1. Ensure the shop locations list is populated
 1. Logout. Ensure that you are unable to access any of the Book Shelter pages
-1. Login and leave the page open an hour or longer for the JWT ticket to expire (or remove the id_token from your localStore). Ensure that you are unable to access any of the Book Shelter pages, and if you click on any actions you are redirected to the login page
+1. Login and leave the page open an hour or longer for the JWT token to expire (or remove the id_token from your localStore). Ensure that you are unable to access any of the Book Shelter pages, and if you click on any actions you are redirected to the login page
 
 ## Questions
 
