@@ -63,7 +63,7 @@ const fetchRandomBooksByRandomSubject = async (subject: string = chooseRandomSub
       (book: APIBook): Book => ({
         key: book.key,
         title: book.title,
-        authors: book.author_name || ["Unknown"],
+        authors: book.authors?.map((author) => author.name) ?? ["Unknown"],
         first_publish_year: book.first_publish_year?.toString() || "Unknown",
       })
     );
