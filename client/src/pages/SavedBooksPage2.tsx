@@ -74,26 +74,43 @@ const SavedBooksPage = () => {
   };
 
   return (
-    <div className="justify-evenly container min-h-screen  bg-[#D9CBA0]">
+    <div className="justify-evenly container min-h-screen bg-[#d9cba0]">
       <h2 className="justify-center">Favorite Books</h2>
       <table className="table-auto border-separate border-spacing-2 border border-gray-400 dark:border-gray-500">
         <thead className="book-list">
           <tr>
-            <th className="border border-gray-700 dark:border-gray-600">Title</th>
-            <th className="border border-gray-700 dark:border-gray-600">Author</th>
-            <th className="border border-gray-700 dark:border-gray-600">Year</th>
-            <th className="border border-gray-700 dark:border-gray-600">Remove</th>
+            <th className="border border-gray-700 dark:border-gray-600">
+              Title
+            </th>
+            <th className="border border-gray-700 dark:border-gray-600">
+              Author
+            </th>
+            <th className="border border-gray-700 dark:border-gray-600">
+              Year
+            </th>
+            <th className="border border-gray-700 dark:border-gray-600">
+              Remove
+            </th>
           </tr>
         </thead>
         <tbody>
           {books.length > 0 ? (
             books.map((book) => (
               <tr key={book.key}>
-                <td className="border border-gray-700 dark:border-gray-600">{book.title}</td>
-                <td className="border border-gray-700 dark:border-gray-600">{book.authors.join(", ")}</td>
-                <td className="border border-gray-700 dark:border-gray-600">{book.first_publish_year}</td>
+                <td className="border border-gray-700 dark:border-gray-600">
+                  {book.title}
+                </td>
+                <td className="border border-gray-700 dark:border-gray-600">
+                  {book.authors.join(", ")}
+                </td>
+                <td className="border border-gray-700 dark:border-gray-600">
+                  {book.first_publish_year}
+                </td>
                 <td>
-                  <button className="btn cursor-pointer text-[#4e3d08] hover:text-white" onClick={() => removeBook(book.key)}>
+                  <button
+                    className="btn cursor-pointer text-[#4e3d08] hover:text-white"
+                    onClick={() => removeBook(book.key)}
+                  >
                     <IoTrashOutline />
                   </button>
                 </td>
@@ -107,28 +124,78 @@ const SavedBooksPage = () => {
         </tbody>
       </table>
 
-      <div className="container">
-        <h1>Bookstores</h1>
-        <div className="book-list">
+      {/* Bookstores Table */}
+      <h2 className="justify-center mt-6">Bookstores</h2>
+      <table className="table-auto border-separate border-spacing-2 border border-gray-400 dark:border-gray-500 w-full">
+        <thead>
+          <tr>
+            <th className="border border-gray-700 dark:border-gray-600">
+              Name
+            </th>
+            <th className="border border-gray-700 dark:border-gray-600">
+              City
+            </th>
+            <th className="border border-gray-700 dark:border-gray-600">
+              Street
+            </th>
+            <th className="border border-gray-700 dark:border-gray-600">
+              State
+            </th>
+            <th className="border border-gray-700 dark:border-gray-600">
+              Phone
+            </th>
+            <th className="border border-gray-700 dark:border-gray-600">
+              Website
+            </th>
+            <th className="border border-gray-700 dark:border-gray-600">
+              Opening Hours
+            </th>
+          </tr>
+        </thead>
+        <tbody>
           {bookstores.length > 0 ? (
             bookstores.map((bookstore) => (
-              <div key={bookstore.name}>
-                <h2>{bookstore.name}</h2>
-                <p>Opening Hours: {bookstore.opening_hours}</p>
-                <p>Phone: {bookstore.phone}</p>
-                <p>Website: {bookstore.website}</p>
-                <p>City: {bookstore.city}</p>
-                <p>Street: {bookstore.street}</p>
-                <p>Postcode: {bookstore.postcode}</p>
-                <p>House Number: {bookstore.housenumber}</p>
-                <p>State: {bookstore.state}</p>
-              </div>
+              <tr key={bookstore.name}>
+                <td className="border border-gray-700 dark:border-gray-600">
+                  {bookstore.name}
+                </td>
+                <td className="border border-gray-700 dark:border-gray-600">
+                  {bookstore.city}
+                </td>
+                <td className="border border-gray-700 dark:border-gray-600">
+                  {bookstore.street} {bookstore.housenumber}
+                </td>
+                <td className="border border-gray-700 dark:border-gray-600">
+                  {bookstore.state}
+                </td>
+                <td className="border border-gray-700 dark:border-gray-600">
+                  {bookstore.phone || "N/A"}
+                </td>
+                <td className="border border-gray-700 dark:border-gray-600">
+                  {bookstore.website ? (
+                    <a
+                      href={bookstore.website}
+                      target="_blank"
+                      className="text-blue-500 underline"
+                    >
+                      Visit
+                    </a>
+                  ) : (
+                    "N/A"
+                  )}
+                </td>
+                <td className="border border-gray-700 dark:border-gray-600">
+                  {bookstore.opening_hours || "N/A"}
+                </td>
+              </tr>
             ))
           ) : (
-            <p>No bookstores found</p>
+            <tr>
+              <td colSpan={7}>No bookstores found</td>
+            </tr>
           )}
-        </div>
-      </div>
+        </tbody>
+      </table>
     </div>
   );
 };
