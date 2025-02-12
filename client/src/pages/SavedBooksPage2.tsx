@@ -74,7 +74,7 @@ const SavedBooksPage = () => {
   };
 
   return (
-    <div className="justify-evenly container">
+    <div className="justify-evenly container min-h-screen  bg-[#D9CBA0]">
       <h2 className="justify-center">Favorite Books</h2>
       <table className="table-auto border-separate border-spacing-2 border border-gray-400 dark:border-gray-500">
         <thead className="book-list">
