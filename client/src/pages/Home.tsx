@@ -50,6 +50,7 @@ const Home = () => {
             {
                 !loginCheck ? (
                     <div className='login-notice'>
+                              <div className='bg-[url(/assets/img/ugur-akdemir-XT-o5O458as-unsplash.jpg)] bg-fixed ...'></div>
                         <h1>
                             Login to view all your friends!
                         </h1>

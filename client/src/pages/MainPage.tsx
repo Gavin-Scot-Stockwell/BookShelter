@@ -69,7 +69,7 @@ const BookContainer = () => {
 
   return (
     <div>
-      <div className="bg-[url(/assets/img/ugur-akdemir-XT-o5O458as-unsplash.jpg)] bg-fixed ...">
+      <div className="bg-[#e3d4b9]">
         <h1>Find a new book!</h1>
         <label>
           <input

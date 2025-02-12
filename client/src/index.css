@@ -36,7 +36,7 @@ a:hover {
 }
 
 body {
-  background: #e3d4b9;
+  background: #e3d4b9; bg-[#4b3d2d] bg-[#e3d4b9]
   background-size: cover;
   background-repeat: no-repeat no-repeat;
   background-position: center center;

@@ -5,6 +5,8 @@ import { apiTest } from "../api/placeTest";
 import Bookstore from "../interfaces/bookstore";
 import auth from "../utils/auth";
 import { fetchBooksFromDB, removeBookFromDB } from "../api/bookApi";
+import { IoTrashOutline } from "react-icons/io5";
+//import BookGround from "../assets/img/ugur-akdemir-XT-o5O458as-unsplash.jpeg";
 
 const SavedBooksPage = () => {
   const navigate = useNavigate();
@@ -81,8 +83,8 @@ const SavedBooksPage = () => {
               <h2>{book.title}</h2>
               <p>Author(s): {book.authors.join(", ")}</p>
               <p>First Published: {book.first_publish_year}</p>
-              <button onClick={() => removeBook(book.key.toString())}>
-                Remove Book
+              <button className="btn cursor-pointer hover:text-white" onClick={() => removeBook(book.key.toString())}>
+              <IoTrashOutline/>
               </button>
             </div>
           ))

@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <Navbar/>
-        <main>
+        <main className="min-h-full bg-[#e3d4b9]">
           <Outlet />
         </main>
     </>
