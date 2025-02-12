@@ -35,7 +35,7 @@ NOTE: The application requires access to your system location in order to locate
 - See the active Book Shelter site deployed on Render [here](https://bookshelter.onrender.com/)  
   Note that it takes a couple of minutes to spin up!  
   ![BookShelter screenshot](client/src/assets/img/screenshot.jpg)   
-  See the Presentation slides file "BookShelter Presentation.pptx" located at [client/src/assets/slides/](client/src/assets/slides/)  
+  See the Presentation slides located at client/src/assets/slides/BookShelter Presentation.pptx  
   
 
 
