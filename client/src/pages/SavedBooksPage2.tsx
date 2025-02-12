@@ -74,26 +74,26 @@ const SavedBooksPage = () => {
   };
 
   return (
-    <div className="container">
-      <table className="table-auto">
-        <h1>Favorite Books</h1>
+    <div className="justify-evenly container">
+      <h2 className="justify-center">Favorite Books</h2>
+      <table className="table-auto border-separate border-spacing-2 border border-gray-400 dark:border-gray-500">
         <thead className="book-list">
           <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Year</th>
-            <th>Remove</th>
+            <th className="border border-gray-700 dark:border-gray-600">Title</th>
+            <th className="border border-gray-700 dark:border-gray-600">Author</th>
+            <th className="border border-gray-700 dark:border-gray-600">Year</th>
+            <th className="border border-gray-700 dark:border-gray-600">Remove</th>
           </tr>
         </thead>
         <tbody>
           {books.length > 0 ? (
             books.map((book) => (
               <tr key={book.key}>
-                <td>{book.title}</td>
-                <td>{book.authors.join(", ")}</td>
-                <td>{book.first_publish_year}</td>
+                <td className="border border-gray-700 dark:border-gray-600">{book.title}</td>
+                <td className="border border-gray-700 dark:border-gray-600">{book.authors.join(", ")}</td>
+                <td className="border border-gray-700 dark:border-gray-600">{book.first_publish_year}</td>
                 <td>
-                  <button onClick={() => removeBook(book.key)}>
+                  <button className="btn cursor-pointer text-[#4e3d08] hover:text-white" onClick={() => removeBook(book.key)}>
                     <IoTrashOutline />
                   </button>
                 </td>
