@@ -5,4 +5,15 @@ import { BookFactory } from './Book.js';
 const User = UserFactory(sequelize);
 const Book = BookFactory(sequelize);
 
+User.belongsToMany(Book,
+    {
+        through: 'savelist'
+    }
+);
+Book.belongsToMany(User,
+    {
+        through: 'savelist'
+    }
+);
+
 export { User, Book };
