@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: BookShelter
+    env: node
+    branch: main
+    buildCommand: npm run render-seed
+    startCommand: npm start
+    envVars:
+      - key: DB_URL
+        sync: false # keeps the existing DB_URL intact
