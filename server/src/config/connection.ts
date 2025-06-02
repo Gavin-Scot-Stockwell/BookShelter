@@ -14,6 +14,16 @@ const sequelize = process.env.DB_URL
         dialect: 'postgres',
         dialectOptions: {
           decimalNumbers: true,
+          /* Use SSL if required:
+             Render's initial db doesn't require ssl, but
+             if you want to isolate the app in a separate
+             database, ssl is required */
+          ssl: {
+            // forces attempt to connect using ssl when required (for production)
+            require: true,
+            // allow self-signed cert for local testing, but should be improved for security!
+            rejectUnauthorized: false,
+          },
         },
       }
     );
