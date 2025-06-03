@@ -1,7 +1,7 @@
 databases:
-  - name: bookshelter-db
+  - name: render-deploy
     plan: free
-    databaseName: bookshelter
+    databaseName: bookshelter_db
     user: bookshelter_user
     region: oregon
 
@@ -15,5 +15,5 @@ services:
     envVars:
       - key: DB_URL
         fromDatabase: # automatically injects the DB connection string to the DB_URL environment
-          name: bookshelter-db
+          name: bookshelter_db
           property: connectionString
