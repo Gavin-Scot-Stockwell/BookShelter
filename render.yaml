@@ -1,3 +1,10 @@
+databases:
+  - name: bookshelter-db
+    plan: free
+    databaseName: bookshelter
+    user: bookshelter_user
+    region: oregon
+
 services:
   - type: web
     name: BookShelter
@@ -7,4 +14,6 @@ services:
     startCommand: npm start
     envVars:
       - key: DB_URL
-        sync: false # keeps the existing DB_URL intact
+        fromDatabase: # automatically injects the DB connection string to the DB_URL environment
+          name: bookshelter-db
+          property: connectionString
