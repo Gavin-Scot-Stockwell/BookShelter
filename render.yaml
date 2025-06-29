@@ -9,6 +9,7 @@
 services:
   - type: web
     name: BookShelter
+    plan: free
     branch: update-render
     runtime: node
     buildCommand: npm run render-seed
@@ -17,4 +18,8 @@ services:
       # keep the existing DB_URL intact: you need to
       #   manually update it for new PostgreSQL deployments
       - key: DB_URL
+        sync: false
+      # To generate a unique secret later:
+      #    node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+      - key: JWT_SECRET_KEY
         sync: false
