@@ -1,0 +1,25 @@
+#
+# 1. Find the Render PostgreSQL instance
+# 2. Locate the <Internal Database URL>/<name_db>
+# 3. Manually set (but replace the database name with a uniqe name for
+#    BookShelter to use):
+#       DB_URL=...<Internal Database URL>/<name_db>
+#
+
+services:
+  - type: web
+    name: BookShelter
+    plan: free
+    branch: update-render
+    runtime: node
+    buildCommand: npm run render-seed
+    startCommand: npm start
+    envVars:
+      # keep the existing DB_URL intact: you need to
+      #   manually update it for new PostgreSQL deployments
+      - key: DB_URL
+        sync: false
+      # To generate a unique secret later:
+      #    node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+      - key: JWT_SECRET_KEY
+        sync: false
